@@ -6,7 +6,7 @@
 
 A composable, multi-theme typesetting skill that can be invoked by agents (DeepSeek Harness & others), by CLI, or as a library.
 
-[中文文档](./README.zh-CN.md) · [Skill Manual](./SKILL.md) · [Architecture](./docs/architecture.md) · [Theme Guide](./docs/theme-guide.md)
+[中文文档](./README.zh-CN.md) · [Skill Manual](./SKILL.md) · [Architecture](./docs/architecture.md) · [Theme Guide](./docs/theme-guide.md) · [How it was built](./docs/how-it-was-built.md)
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 ![Node: >=18](https://img.shields.io/badge/node-%3E%3D18-blue)
