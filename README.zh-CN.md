@@ -6,7 +6,7 @@
 
 可被 Agent（DeepSeek Harness 等）、CLI 或作为库调用的多主题排版 Skill。
 
-[English](./README.md) · [Skill 手册](./SKILL.md) · [架构设计](./docs/architecture.md) · [主题指南](./docs/theme-guide.md) · [从 0 到 1](./docs/how-it-was-built.md)
+[English](./README.md) · [Skill 手册](./SKILL.md) · [架构设计](./docs/architecture.md) · [主题指南](./docs/theme-guide.md) · [实践复盘](./docs/how-it-was-built.md)
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 ![Node: >=18](https://img.shields.io/badge/node-%3E%3D18-blue)
