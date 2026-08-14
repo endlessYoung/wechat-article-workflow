@@ -1,0 +1,53 @@
+<h1 style="font-size:22px;font-weight:700;line-height:1.4;color:#1a1a1a;margin:0 0 0.7em;padding-bottom:0.35em;border-bottom:1px solid #e7e9ee">公众号排版 Skill 使用示例</h1>
+<p style="font-size:15px;line-height:1.75;color:#3b3b3b;margin:0 0 1.1em;letter-spacing:0.3px">这是一段<strong style="font-weight:700;color:#1a1a1a">正文段落</strong>，用于演示视图层排版效果。正文默认 <em style="font-style:italic">15px</em>、行高 <code style="font-family:&quot;SFMono-Regular&quot;, Consolas, &quot;Liberation Mono&quot;, Menlo, &quot;Courier New&quot;, monospace;font-size:0.88em;color:#c0341d;background-color:#f2f3f5;padding:2px 5px;border-radius:4px">1.75</code>，段间距克制、留白充足。你可以在这里使用 <a href="https://example.com" style="color:#0f766e;text-decoration:underline">链接</a>、<del style="color:#8a919b">删除线</del> 以及行内代码 <code style="font-family:&quot;SFMono-Regular&quot;, Consolas, &quot;Liberation Mono&quot;, Menlo, &quot;Courier New&quot;, monospace;font-size:0.88em;color:#c0341d;background-color:#f2f3f5;padding:2px 5px;border-radius:4px">npm run build</code> 等行内样式。</p>
+<h2 style="font-size:19px;font-weight:700;line-height:1.45;color:#1a1a1a;margin:1.5em 0 0.6em;padding-left:12px;border-left:4px solid #0f766e">二级标题：标题层级</h2>
+<p style="font-size:15px;line-height:1.75;color:#3b3b3b;margin:0 0 1.1em;letter-spacing:0.3px">二级标题使用左侧强调条区分层级；正文建议不超过三层标题，保持阅读节奏。</p>
+<h3 style="font-size:16px;font-weight:700;line-height:1.5;color:#1a1a1a;margin:1.3em 0 0.5em">三级标题：正文节</h3>
+<p style="font-size:15px;line-height:1.75;color:#3b3b3b;margin:0 0 1.1em;letter-spacing:0.3px">三级标题更轻量，用于小节划分。下面演示其余组件。</p>
+<h2 style="font-size:19px;font-weight:700;line-height:1.45;color:#1a1a1a;margin:1.5em 0 0.6em;padding-left:12px;border-left:4px solid #0f766e">引用与代码</h2>
+<blockquote style="margin:1.3em 0;padding:0 0 0 14px;border-left:4px solid #0f766e;color:#5a6069;line-height:1.7">引用块用于转述观点或引出背景：左侧细强调线、文字略灰，克制而不抢戏。</blockquote>
+<p style="font-size:15px;line-height:1.75;color:#3b3b3b;margin:0 0 1.1em;letter-spacing:0.3px">代码块自带浅底卡片与语言标签，长行会自动折行，避免手机端横向滚动：</p>
+<section style="background-color:#f6f8fa;border:1px solid #eaecef;border-radius:8px;padding:14px 16px;margin:1.2em 0"><p style="font-size:12px;color:#8a919b;margin:0 0 8px;font-family:&quot;SFMono-Regular&quot;, Consolas, &quot;Liberation Mono&quot;, Menlo, &quot;Courier New&quot;, monospace">ts</p><pre style="margin:0;white-space:pre-wrap;word-break:break-all;overflow-x:auto;line-height:1.6;font-family:&quot;SFMono-Regular&quot;, Consolas, &quot;Liberation Mono&quot;, Menlo, &quot;Courier New&quot;, monospace;font-size:13px;color:#24292f"><code style="font-family:&quot;SFMono-Regular&quot;, Consolas, &quot;Liberation Mono&quot;, Menlo, &quot;Courier New&quot;, monospace;font-size:13px">export function format(markdown: string, options?: FormatOptions): FormatResult {
+  const theme = getTheme(options?.theme);
+  const blocks = parseMarkdown(markdown);
+  return { html: renderBlocks(blocks, theme), theme: theme.id };
+}</code></pre></section>
+<h2 style="font-size:19px;font-weight:700;line-height:1.45;color:#1a1a1a;margin:1.5em 0 0.6em;padding-left:12px;border-left:4px solid #0f766e">列表</h2>
+<p style="font-size:15px;line-height:1.75;color:#3b3b3b;margin:0 0 1.1em;letter-spacing:0.3px">无序列表：</p>
+<ul style="margin:0 0 1.2em;padding-left:1.6em;list-style-type:disc;color:#3b3b3b">
+<li style="margin:0.35em 0;line-height:1.75;padding-left:0.3em;font-size:15px">排版规则与组件逻辑分离</li>
+<li style="margin:0.35em 0;line-height:1.75;padding-left:0.3em;font-size:15px">主题可插拔，新增风格无需改渲染器</li>
+<li style="margin:0.35em 0;line-height:1.75;padding-left:0.3em;font-size:15px">输出纯内联样式，适配公众号编辑器</li>
+</ul>
+<p style="font-size:15px;line-height:1.75;color:#3b3b3b;margin:0 0 1.1em;letter-spacing:0.3px">有序列表：</p>
+<ol style="margin:0 0 1.2em;padding-left:1.6em;list-style-type:decimal;color:#3b3b3b">
+<li style="margin:0.35em 0;line-height:1.75;padding-left:0.3em;font-size:15px">解析 Markdown 结构</li>
+<li style="margin:0.35em 0;line-height:1.75;padding-left:0.3em;font-size:15px">套用主题视觉规范</li>
+<li style="margin:0.35em 0;line-height:1.75;padding-left:0.3em;font-size:15px">生成可粘贴的 HTML 片段</li>
+</ol>
+<p style="font-size:15px;line-height:1.75;color:#3b3b3b;margin:0 0 1.1em;letter-spacing:0.3px">嵌套列表：</p>
+<ul style="margin:0 0 1.2em;padding-left:1.6em;list-style-type:disc;color:#3b3b3b">
+<li style="margin:0.35em 0;line-height:1.75;padding-left:0.3em;font-size:15px">第一阶段
+<ol style="margin:0 0 1.2em;padding-left:1.6em;list-style-type:decimal;color:#3b3b3b">
+<li style="margin:0.35em 0;line-height:1.75;padding-left:0.3em;font-size:15px">完成项目结构</li>
+<li style="margin:0.35em 0;line-height:1.75;padding-left:0.3em;font-size:15px">实现默认主题</li>
+</ol></li>
+<li style="margin:0.35em 0;line-height:1.75;padding-left:0.3em;font-size:15px">第二阶段
+<ul style="margin:0 0 1.2em;padding-left:1.6em;list-style-type:disc;color:#3b3b3b">
+<li style="margin:0.35em 0;line-height:1.75;padding-left:0.3em;font-size:15px">新增多套视觉风格</li>
+<li style="margin:0.35em 0;line-height:1.75;padding-left:0.3em;font-size:15px">语法高亮</li>
+</ul></li>
+</ul>
+<h2 style="font-size:19px;font-weight:700;line-height:1.45;color:#1a1a1a;margin:1.5em 0 0.6em;padding-left:12px;border-left:4px solid #0f766e">提示卡</h2>
+<section style="background-color:#eef7f5;border-left:3px solid #0f766e;border-radius:6px;padding:12px 16px;margin:1.2em 0"><p style="margin:0 0 4px;font-weight:700;color:#0f766e;font-size:15px">💡 小技巧</p><p style="margin:0;line-height:1.7;color:#3b3b3b">提示卡用 <code style="font-family:&quot;SFMono-Regular&quot;, Consolas, &quot;Liberation Mono&quot;, Menlo, &quot;Courier New&quot;, monospace;font-size:0.88em;color:#c0341d;background-color:#f2f3f5;padding:2px 5px;border-radius:4px">:::</code> 容器书写，支持四种语义：tip / note / warning / important。</p></section>
+<section style="background-color:#fef7ec;border-left:3px solid #d97706;border-radius:6px;padding:12px 16px;margin:1.2em 0"><p style="margin:0 0 4px;font-weight:700;color:#d97706;font-size:15px">⚠️ 注意</p><p style="margin:0;line-height:1.7;color:#3b3b3b">注意：公众号会剥离 <code style="font-family:&quot;SFMono-Regular&quot;, Consolas, &quot;Liberation Mono&quot;, Menlo, &quot;Courier New&quot;, monospace;font-size:0.88em;color:#c0341d;background-color:#f2f3f5;padding:2px 5px;border-radius:4px">&lt;style&gt;</code> 与外部 CSS，因此所有样式必须内联。</p></section>
+<section style="background-color:#fdf0f0;border-left:3px solid #dc2626;border-radius:6px;padding:12px 16px;margin:1.2em 0"><p style="margin:0 0 4px;font-weight:700;color:#dc2626;font-size:15px">⭐ 重点</p><p style="margin:0;line-height:1.7;color:#3b3b3b">重点内容：图片需先上传公众号素材库，粘贴后的外链图片可能失效。</p></section>
+<h2 style="font-size:19px;font-weight:700;line-height:1.45;color:#1a1a1a;margin:1.5em 0 0.6em;padding-left:12px;border-left:4px solid #0f766e">主题引用</h2>
+<p style="font-size:15px;line-height:1.75;color:#3b3b3b;margin:0 0 1.1em;letter-spacing:0.3px">文中提出结论后可用上标数字标记来源<sup style="font-size:0.75em;color:#0f766e;font-weight:600;margin:0 1px;line-height:1"><a href="#ref-1" style="color:#0f766e;text-decoration:none">1</a></sup>，也可在句末补充多个证据<sup style="font-size:0.75em;color:#0f766e;font-weight:600;margin:0 1px;line-height:1"><a href="#ref-2" style="color:#0f766e;text-decoration:none">2</a></sup>。</p>
+<section style="margin:2.2em 0 0;padding:16px 0 0;border-top:1px solid #e7e9ee"><p style="font-size:14px;font-weight:700;color:#1a1a1a;margin:0 0 12px;letter-spacing:0.5px">参考文献</p><ol style="margin:0;padding-left:0;list-style-type:none">
+<li id="ref-1" style="margin:0 0 10px;line-height:1.6;font-size:13px;color:#5a6069"><sup style="color:#8a919b;font-size:0.85em;margin-right:6px;font-weight:600">1</sup> <span style="color:#3b3b3b;font-weight:600">Teaching Claude Why</span> <span style="color:#8a919b"> — Anthropic Research, 2025-06</span> <a href="https://www.anthropic.com/research/teaching-claude-why" style="color:#0f766e;text-decoration:none;font-size:12px;word-break:break-all">www.anthropic.com/research/teaching-claude-why</a></li>
+<li id="ref-2" style="margin:0 0 10px;line-height:1.6;font-size:13px;color:#5a6069"><sup style="color:#8a919b;font-size:0.85em;margin-right:6px;font-weight:600">2</sup> <span style="color:#3b3b3b;font-weight:600">Reward Hacking in LLMs</span> <span style="color:#8a919b"> — arXiv, 2024-10</span> <a href="https://arxiv.org/abs/2406.10162" style="color:#0f766e;text-decoration:none;font-size:12px;word-break:break-all">arxiv.org/abs/2406.10162</a></li>
+</ol></section>
+<section style="text-align:center;margin:1.8em 0;line-height:1"><span style="display:inline-block;width:72px;height:1px;background-color:#d9dce1"></span></section>
+<p style="font-size:15px;line-height:1.75;color:#3b3b3b;margin:0 0 1.1em;letter-spacing:0.3px">这是分割线之后的一段收尾文字。</p>
+<p style="font-size:15px;line-height:1.75;color:#3b3b3b;margin:0 0 1.1em;letter-spacing:0.3px"><img src="https://example.com/demo.png" alt="示例图片" style="display:block;max-width:100%;border-radius:6px;margin:1.2em auto" /></p>

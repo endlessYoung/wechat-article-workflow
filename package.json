@@ -1,31 +1,37 @@
 {
   "name": "wechat-formatting-skill",
   "version": "0.1.0",
-  "description": "公众号文章排版 Skill：将 Markdown 原文或大纲排版为符合微信公众号阅读习惯的最终文本，可被 Agent / Harness 作为技能或工具调用。",
+  "description": "公众号视图层排版 Skill：将 Markdown 原文或结构化大纲转换为可直接粘贴公众号后台的内联样式 HTML，支持多主题。",
   "type": "module",
-  "main": "src/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.js",
-    "./rules/*": "./rules/*.md",
-    "./templates/*": "./templates/*.md"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
   },
   "bin": {
-    "wechat-format": "./bin/wechat-format.js"
+    "wechat-format": "./dist/cli.js"
   },
   "files": [
-    "src",
-    "bin",
-    "rules",
-    "templates",
-    "interface",
-    "examples",
+    "dist",
     "SKILL.md",
-    "README.md"
+    "README.md",
+    "interface",
+    "docs",
+    "examples"
   ],
   "scripts": {
-    "test": "node --test",
-    "demo": "node bin/wechat-format.js examples/input.md -o examples/expected-output.md",
-    "format:check": "node bin/wechat-format.js examples/input.md --check"
+    "build": "tsc -p tsconfig.json",
+    "test": "node --import tsx --test \"test/*.test.ts\"",
+    "demo": "tsx src/cli.ts examples/sample.md -o examples/sample-output.html",
+    "demo:anthropic": "tsx src/cli.ts examples/sample.md -o examples/sample-anthropic.html --theme anthropic",
+    "screenshot": "node scripts/screenshot.mjs",
+    "embed": "node scripts/embed-images.mjs",
+    "ocr": "node scripts/ocr.mjs",
+    "dev": "tsx src/cli.ts",
+    "typecheck": "tsc --noEmit"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -35,10 +41,20 @@
     "weixin",
     "公众号",
     "markdown",
+    "html",
+    "inline-style",
     "排版",
     "skill",
     "agent",
     "llm"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "puppeteer-core": "^25.7.0",
+    "sharp": "^0.35.3",
+    "tesseract.js": "^7.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
 }
