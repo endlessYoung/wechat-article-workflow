@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.org/wechat-formatting/options.schema.json",
+  "title": "wechat_format options",
+  "description": "wechat_format 工具的输入：待排版的 Markdown 原文或大纲，以及排版选项。与 src/options.js 保持同步。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["source"],
+  "properties": {
+    "source": {
+      "type": "string",
+      "description": "待排版的 Markdown 原文或结构化文章大纲"
+    },
+    "options": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cjkSpacing": {
+          "type": "boolean",
+          "default": true,
+          "description": "中文与西文/数字之间插入半角空格（代码、URL 内部除外）"
+        },
+        "fullWidthPunctuation": {
+          "type": "boolean",
+          "default": true,
+          "description": "中文语境下将半角标点转为全角"
+        },
+        "normalizeBullets": {
+          "type": "boolean",
+          "default": true,
+          "description": "统一无序列表符号为 -"
+        },
+        "divider": {
+          "type": "string",
+          "default": "---",
+          "description": "全文统一的分隔线"
+        },
+        "quoteStyle": {
+          "type": "string",
+          "enum": ["plain", "markdown"],
+          "default": "plain",
+          "description": "plain=「」包裹（公众号纯文本友好）；markdown=保留 > 前缀"
+        },
+        "numberHeadings": {
+          "type": "boolean",
+          "default": false,
+          "description": "给顶层标题自动编号（01 | xxx），已带编号的跳过"
+        },
+        "headingNumberZeroPad": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4,
+          "default": 2,
+          "description": "编号补零位数"
+        },
+        "splitLongParagraphs": {
+          "type": "boolean",
+          "default": false,
+          "description": "按句子边界拆分超长段落"
+        },
+        "maxParagraphChars": {
+          "type": "integer",
+          "minimum": 40,
+          "default": 160,
+          "description": "段落拆分阈值（字符数）"
+        },
+        "blankLineBetweenBlocks": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3,
+          "default": 1,
+          "description": "块之间空行数"
+        },
+        "insertTransitions": {
+          "type": "boolean",
+          "default": false,
+          "description": "顶层章节开头无正文时自动插入过渡句（默认关，建议由 Agent 手工补写）"
+        },
+        "trimTrailingWhitespace": {
+          "type": "boolean",
+          "default": true,
+          "description": "去除行尾空白"
+        }
+      }
+    }
+  }
+}

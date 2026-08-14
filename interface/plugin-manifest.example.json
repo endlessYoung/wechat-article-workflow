@@ -1,0 +1,35 @@
+{
+  "$comment": "插件清单示例：将 wechat_format 注册为 Agent Harness 的工具。字段命名遵循常见插件/工具清单约定，接入时按宿主平台映射即可（详见 docs/harness-integration.md）。",
+  "name": "wechat-formatting",
+  "version": "0.1.0",
+  "description": "公众号文章排版：将 Markdown 排版为符合微信公众号阅读习惯的最终文本",
+  "kind": "tool-pack",
+  "tools": [
+    {
+      "name": "wechat_format",
+      "description": "将 Markdown 原文或结构化大纲排版为符合微信公众号阅读习惯的最终文本，输出 { text, stats, warnings }。适合在交付公众号文章前调用。",
+      "inputSchema": {
+        "$ref": "./options.schema.json"
+      },
+      "outputSchema": {
+        "type": "object",
+        "required": ["text", "stats", "warnings", "meta"],
+        "properties": {
+          "text": { "type": "string" },
+          "stats": { "type": "object" },
+          "warnings": { "type": "array", "items": { "type": "string" } },
+          "meta": { "type": "object" }
+        }
+      },
+      "handler": {
+        "type": "cli",
+        "command": "node",
+        "args": ["bin/wechat-format.js", "--json"],
+        "input": "stdin",
+        "output": "stdout",
+        "timeoutMs": 10000
+      },
+      "invokeHint": "传入 { source, options }；引擎只做机械排版，创意性过渡句/钩子需 Agent 按 rules/ 与 templates/ 自行补写。"
+    }
+  ]
+}
