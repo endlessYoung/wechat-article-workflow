@@ -1,8 +1,8 @@
 <div align="center">
 
-# wechat-formatting-skill
+# wechat-article-workflow
 
-**把 Markdown 排版成可直接粘贴到微信公众号后台的内联样式 HTML。**
+**公众号文章工作流：把 Markdown 排版成可粘贴到公众号后台的内联样式 HTML，图床托管 + 一键复制发布。**
 
 可被 Agent（DeepSeek Harness 等）、CLI 或作为库调用的多主题排版 Skill。
 
@@ -50,7 +50,7 @@ npm run demo       # 重新生成示例输出
 ### 作为库调用
 
 ```ts
-import { format, registerTheme, listThemes } from 'wechat-formatting-skill';
+import { format, registerTheme, listThemes } from 'wechat-article-workflow';
 
 const { html, theme, stats, warnings } = format('# 标题\n\n正文……', { theme: 'anthropic' });
 console.log(html); // 可直接粘贴的 HTML 片段
@@ -85,7 +85,7 @@ console.log(html); // 可直接粘贴的 HTML 片段
 ## 项目结构
 
 ```
-wechat-formatting-skill/
+wechat-article-workflow/
 ├── SKILL.md                 # Agent 调用手册
 ├── README.md / README.zh-CN.md
 ├── src/
@@ -103,7 +103,7 @@ wechat-formatting-skill/
 
 ## Agent / 工具对接
 
-- **库**——`import { format } from 'wechat-formatting-skill'`
+- **库**——`import { format } from 'wechat-article-workflow'`
 - **CLI**——`wechat-format input.md -o out.html --theme minimal --json`
 - **Skill 手册**——Agent 读取 `SKILL.md` 按流程执行
 - **工具**——`wechat_format` 契约见 `interface/tool-contract.md`

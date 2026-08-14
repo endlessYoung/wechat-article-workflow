@@ -51,6 +51,6 @@
 
 ## 6. 三种对接形态
 
-1. **模块**：`import { format } from 'wechat-formatting-skill'`
+1. **模块**：`import { format } from 'wechat-article-workflow'`
 2. **CLI**：`wechat-format input.md -o out.html --theme minimal`
 3. **插件**：见 `interface/plugin-manifest.example.json` 与 `docs/harness-integration.md`

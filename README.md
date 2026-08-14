@@ -1,8 +1,8 @@
 <div align="center">
 
-# wechat-formatting-skill
+# wechat-article-workflow
 
-**Turn Markdown into paste-ready, inline-styled HTML for WeChat Official Account articles.**
+**An end-to-end workflow for WeChat Official Account articles: format Markdown into paste-ready, inline-styled HTML, host images, and publish with one click.**
 
 A composable, multi-theme typesetting skill that can be invoked by agents (DeepSeek Harness & others), by CLI, or as a library.
 
@@ -50,7 +50,7 @@ npm run demo       # regenerate examples/sample-output.html
 ### As a library
 
 ```ts
-import { format, registerTheme, listThemes } from 'wechat-formatting-skill';
+import { format, registerTheme, listThemes } from 'wechat-article-workflow';
 
 const { html, theme, stats, warnings } = format('# Title\n\nBody…', { theme: 'anthropic' });
 console.log(html); // paste-ready fragment
@@ -85,7 +85,7 @@ Add a theme in minutes — see `docs/theme-guide.md`.
 ## Project structure
 
 ```
-wechat-formatting-skill/
+wechat-article-workflow/
 ├── SKILL.md                 # agent-facing skill manual
 ├── README.md / README.zh-CN.md
 ├── src/
@@ -103,7 +103,7 @@ wechat-formatting-skill/
 
 ## Agent & tool integration
 
-- **Library** — `import { format } from 'wechat-formatting-skill'`
+- **Library** — `import { format } from 'wechat-article-workflow'`
 - **CLI** — `wechat-format input.md -o out.html --theme minimal --json`
 - **Skill manual** — an agent reads `SKILL.md` and follows the workflow
 - **Tool** — `wechat_format` contract in `interface/tool-contract.md`

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/plugin-manifest.json",
-  "name": "wechat-formatting-skill",
+  "name": "wechat-article-workflow",
   "version": "0.1.0",
   "description": "公众号视图层排版：Markdown/大纲 → 可粘贴公众号后台的内联样式 HTML，支持多主题。",
   "kind": "tool",

@@ -1,11 +1,11 @@
 ---
-name: wechat-formatting
-description: 将 Markdown 原文或结构化大纲排版为可直接粘贴微信公众号后台的内联样式 HTML 片段（视图层排版）。统一标题/正文/引用/代码/列表/分割线/提示卡的视觉规范，支持多主题。不改写内容事实。
+name: wechat-article-workflow
+description: 公众号文章工作流：把 Markdown/大纲排版为可粘贴公众号后台的多主题内联样式 HTML，并支持 OCR 读图、图床上传与一键复制发布。不改写内容事实。
 version: 0.1.0
 trigger: 用户要求"排版公众号文章 / 生成公众号 HTML / 公众号视图排版 / 输出可粘贴公众号后台的富文本 / 公众号多主题排版"
 ---
 
-# 公众号视图层排版 Skill
+# 公众号文章工作流 Skill
 
 ## 1. 定位与输入输出
 
@@ -15,7 +15,7 @@ trigger: 用户要求"排版公众号文章 / 生成公众号 HTML / 公众号�
 
 ## 2. 调用方式（三选一）
 
-1. **模块模式（推荐）**：`import { format } from 'wechat-formatting-skill'`，对 `format(source, { theme })` 的返回值取 `.html` 交给用户粘贴。
+1. **模块模式（推荐）**：`import { format } from 'wechat-article-workflow'`，对 `format(source, { theme })` 的返回值取 `.html` 交给用户粘贴。
 2. **CLI 模式**：`wechat-format input.md -o out.html [--theme minimal] [--json]`，机械转换交给引擎。
 3. **手册模式**：直接按本文档流程，用下方「组件语法」与主题规范手写 HTML。
 

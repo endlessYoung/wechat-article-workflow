@@ -53,7 +53,7 @@ Markdown  ──parse──▶  Block[]  ──render──▶  内联样式 HTM
 
 ### 3.3 与 Agent / Harness / Plugin 对接
 
-- **模块模式**：`import { format } from 'wechat-formatting-skill'`；
+- **模块模式**：`import { format } from 'wechat-article-workflow'`；
 - **CLI 模式**：`wechat-format`（`--json` 输出结构化结果）；
 - **Skill 手册模式**：Agent 读取 `SKILL.md` 后按流程产出；
 - **插件模式**：`interface/plugin-manifest.example.json` 定义工具清单，`interface/tool-contract.md` 定义契约。

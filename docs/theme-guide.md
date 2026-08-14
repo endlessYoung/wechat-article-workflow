@@ -14,8 +14,8 @@
 ## 2. 最小示例
 
 ```ts
-import { registerTheme } from 'wechat-formatting-skill';
-import type { Theme } from 'wechat-formatting-skill';
+import { registerTheme } from 'wechat-article-workflow';
+import type { Theme } from 'wechat-article-workflow';
 
 const brand: Theme = {
   id: 'brand',
@@ -88,7 +88,7 @@ registerTheme(brand);
 ## 4. 注册与使用
 
 ```ts
-import { registerTheme, format } from 'wechat-formatting-skill';
+import { registerTheme, format } from 'wechat-article-workflow';
 import { brand } from './brand.js';
 
 registerTheme(brand);

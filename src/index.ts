@@ -1,8 +1,8 @@
 /**
- * wechat-formatting-skill 公共 API 出口。
+ * wechat-article-workflow 公共 API 出口。
  *
  * 三种调用方式：
- * 1. 模块：`import { format } from 'wechat-formatting-skill'`
+ * 1. 模块：`import { format } from 'wechat-article-workflow'`
  * 2. CLI：`wechat-format input.md -o out.html`
  * 3. Skill 手册：读取 SKILL.md 后由 Agent 执行
  */

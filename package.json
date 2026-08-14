@@ -1,7 +1,7 @@
 {
-  "name": "wechat-formatting-skill",
+  "name": "wechat-article-workflow",
   "version": "0.1.0",
-  "description": "公众号视图层排版 Skill：将 Markdown 原文或结构化大纲转换为可直接粘贴公众号后台的内联样式 HTML，支持多主题。",
+  "description": "公众号文章工作流：Markdown/大纲 → 多主题内联样式 HTML，含 OCR 读图、图床上传与一键复制发布。",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -47,9 +47,15 @@
     "排版",
     "skill",
     "agent",
-    "llm"
+    "llm",
+    "workflow",
+    "publish"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/endlessYoung/wechat-article-workflow.git"
+  },
   "devDependencies": {
     "@types/node": "^22.10.0",
     "puppeteer-core": "^25.7.0",

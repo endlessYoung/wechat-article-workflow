@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://wechat-formatting-skill/options.schema.json",
+  "$id": "https://wechat-article-workflow/options.schema.json",
   "title": "wechat_format options",
   "description": "wechat_format 工具的 options 参数 Schema，与 src/core/format.ts 的 FormatOptions 保持一致。",
   "type": "object",
