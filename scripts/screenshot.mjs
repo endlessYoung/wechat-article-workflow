@@ -45,7 +45,7 @@ try {
     '<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#ffffff;}</style>' + content,
     { waitUntil: 'load' },
   );
-  await new Promise((r) => setTimeout(r, 500));
+  await new Promise((r) => setTimeout(r, 2500));
   await page.screenshot({ path: output, fullPage: true });
   console.log(`saved: ${output}`);
 } finally {
