@@ -110,7 +110,7 @@ wechat-formatting-skill/
 
 ## 内容生产工作流
 
-仓库自带三个工具脚本，用于把素材整理成一篇成品文章：
+仓库自带工具脚本，把素材整理成一篇可直接发布的文章：
 
 ```bash
 # 1) OCR 识别截图/文字素材（当模型没有视觉能力时）
@@ -119,14 +119,17 @@ npm run ocr -- path/to/images/
 # 2) 排版成内联样式 HTML
 node dist/cli.js article.md -o article.html --theme anthropic
 
-# 3) 把本地图片内嵌为 base64（生成自包含文件）
-npm run embed -- article.html article-inline.html
-
-# 4) 渲染整页长截图
-npm run screenshot -- article-inline.html article-preview.png 800
+# 3) 把本地图片上传到你的 GitHub 图床，并生成一键复制页面
+npm run publish -- article.html --slug article-01
+#    -> article-publish.html   （公网图片地址）
+#    -> article-copy.html      （一键复制到公众号）
 ```
 
-> 注意：公众号编辑器**不支持** base64 图片，发布前需将图片上传素材库并替换 `src`。`article-inline.html` 仅用于预览与长截图。
+然后双击打开 `article-copy.html`，点「📋 一键复制到公众号」，到公众号编辑器 Ctrl+V 粘贴——图片会自动从 jsDelivr 加载。
+
+> `npm run publish` 会把图片上传到 GitHub 仓库（`WECHAT_IMG_REPO`，默认 `endlessYoung/wechat-blog-images`），并把 `src` 替换为 `cdn.jsdelivr.net` 地址；token 从 `GITHUB_TOKEN` 或 `gh auth token` 读取。
+>
+> 可选：`npm run embed -- article.html article-inline.html`（生成 base64 自包含预览）与 `npm run screenshot -- article-inline.html article-preview.png`（整页长截图）。
 
 ## 开发
 

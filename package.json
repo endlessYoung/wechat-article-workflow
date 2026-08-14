@@ -30,6 +30,7 @@
     "screenshot": "node scripts/screenshot.mjs",
     "embed": "node scripts/embed-images.mjs",
     "ocr": "node scripts/ocr.mjs",
+    "publish": "node scripts/publish.mjs",
     "dev": "tsx src/cli.ts",
     "typecheck": "tsc --noEmit"
   },

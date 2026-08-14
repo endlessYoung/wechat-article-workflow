@@ -110,7 +110,7 @@ wechat-formatting-skill/
 
 ## Content-production workflow
 
-The repo ships three utility scripts for turning raw material into a finished article:
+The repo ships utility scripts that turn raw material into a finished, publishable article:
 
 ```bash
 # 1) OCR screenshots/text material (when the model has no vision)
@@ -119,14 +119,17 @@ npm run ocr -- path/to/images/
 # 2) Format the article into inline-styled HTML
 node dist/cli.js article.md -o article.html --theme anthropic
 
-# 3) Embed local images as base64 (self-contained preview)
-npm run embed -- article.html article-inline.html
-
-# 4) Render a full-page long screenshot
-npm run screenshot -- article-inline.html article-preview.png 800
+# 3) Upload local images to your GitHub image host + generate a one-click copy page
+npm run publish -- article.html --slug article-01
+#    -> article-publish.html  (public image URLs)
+#    -> article-copy.html     (one-click copy to WeChat)
 ```
 
-> Note: WeChat's editor does **not** accept base64 images — upload images to the media library and replace the `src` before publishing. `article-inline.html` is for preview / long-screenshot only.
+Then open `article-copy.html`, click **“📋 一键复制到公众号”**, and paste (Ctrl+V) into the WeChat editor — images are fetched from jsDelivr automatically.
+
+> `npm run publish` uploads images to a GitHub repo (`WECHAT_IMG_REPO`, default `endlessYoung/wechat-blog-images`) and rewrites `src` to `cdn.jsdelivr.net` URLs. It reads the token from `GITHUB_TOKEN` or `gh auth token`.
+>
+> Optional: `npm run embed -- article.html article-inline.html` (self-contained base64 preview) and `npm run screenshot -- article-inline.html article-preview.png` (full-page long screenshot).
 
 ## Development
 
