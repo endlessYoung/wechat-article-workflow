@@ -2,6 +2,8 @@ import type { Block, InlineToken, ListItem, Reference } from './types.js';
 import type { Theme, CalloutStyle, Style } from '../themes/types.js';
 import { styleToString } from '../utils/css.js';
 import { escapeHtml } from '../utils/escape.js';
+import { renderMath } from '../utils/math.js';
+import { highlightCode } from '../utils/highlight.js';
 import { parseInline } from './inline.js';
 
 /** 引用索引：编号 → 参考文献（用于文内标记跳转与孤儿引用判断）。 */
@@ -27,9 +29,9 @@ function renderInline(tokens: InlineToken[], theme: Theme, refs: RefIndex): stri
         case 'text':
           return escapeHtml(t.value);
         case 'strong':
-          return `<strong style="${styleToString(theme.strong)}">${escapeHtml(t.value)}</strong>`;
+          return `<strong style="${styleToString(theme.strong)}">${renderInline(parseInline(t.value), theme, refs)}</strong>`;
         case 'em':
-          return `<em style="${styleToString(theme.em)}">${escapeHtml(t.value)}</em>`;
+          return `<em style="${styleToString(theme.em)}">${renderInline(parseInline(t.value), theme, refs)}</em>`;
         case 'code':
           return `<code style="${styleToString(theme.inlineCode)}">${escapeHtml(t.value)}</code>`;
         case 'del':
@@ -46,6 +48,8 @@ function renderInline(tokens: InlineToken[], theme: Theme, refs: RefIndex): stri
           }
           return `${sup}${n}</sup>`;
         }
+        case 'math':
+          return `<span style="${styleToString(theme.math.inline)}">${renderMath(t.value)}</span>`;
         default:
           return '';
       }
@@ -66,10 +70,12 @@ function renderBlock(b: Block, theme: Theme, refs: RefIndex): string {
     case 'code': {
       const cb = theme.codeBlock;
       const lang = b.lang ? `<p style="${styleToString(cb.lang)}">${escapeHtml(b.lang)}</p>` : '';
-      return `<section style="${styleToString(cb.wrapper)}">${lang}<pre style="${styleToString(cb.pre)}"><code style="${styleToString(cb.code)}">${escapeHtml(b.code)}</code></pre></section>`;
+      return `<section style="${styleToString(cb.wrapper)}">${lang}<pre style="${styleToString(cb.pre)}"><code style="${styleToString(cb.code)}">${highlightCode(b.code, b.lang, theme.syntax)}</code></pre></section>`;
     }
     case 'divider':
       return `<section style="${styleToString(theme.divider.wrapper)}"><span style="${styleToString(theme.divider.line)}"></span></section>`;
+    case 'math':
+      return `<p style="${styleToString(theme.math.block)}">${renderMath(b.value)}</p>`;
     case 'list':
       return renderList(b, theme, refs);
     case 'callout':

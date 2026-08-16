@@ -115,6 +115,23 @@ export const anthropic: Theme = {
     margin: '1.4em auto',
   },
 
+  math: {
+    inline: {
+      fontFamily: SERIF,
+      fontStyle: 'italic',
+      color: '#141413',
+    },
+    block: {
+      fontFamily: SERIF,
+      fontStyle: 'italic',
+      fontSize: '18px',
+      lineHeight: '1.7',
+      textAlign: 'center',
+      color: '#141413',
+      margin: '1.6em 0',
+    },
+  },
+
   codeBlock: {
     wrapper: {
       backgroundColor: '#f0eee6',
@@ -140,6 +157,16 @@ export const anthropic: Theme = {
       color: '#141413',
     },
     code: { fontFamily: MONO, fontSize: '13px' },
+  },
+
+  syntax: {
+    keyword: '#b25c3c',
+    string: '#5c7a3a',
+    comment: '#8a8a82',
+    number: '#b0782d',
+    annotation: '#a0506e',
+    type: '#6a4f9e',
+    function: '#2e6e8e',
   },
 
   list: {

@@ -7,6 +7,9 @@ dist/
 # personal article material（个人文章素材，不属于 Skill 本体）
 index/
 
+# article final output（文章成品输出：一键复制 html + 预览 png）
+output/
+
 # logs / os
 *.log
 .DS_Store

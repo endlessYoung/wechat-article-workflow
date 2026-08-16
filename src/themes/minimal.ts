@@ -99,6 +99,23 @@ export const minimal: Theme = {
     margin: '1.2em auto',
   },
 
+  math: {
+    inline: {
+      fontFamily: FONT_FAMILY,
+      fontStyle: 'italic',
+      color: '#3b3b3b',
+    },
+    block: {
+      fontFamily: FONT_FAMILY,
+      fontStyle: 'italic',
+      fontSize: '17px',
+      lineHeight: '1.7',
+      textAlign: 'center',
+      color: '#3b3b3b',
+      margin: '1.4em 0',
+    },
+  },
+
   codeBlock: {
     wrapper: {
       backgroundColor: '#f6f8fa',
@@ -124,6 +141,16 @@ export const minimal: Theme = {
       color: '#24292f',
     },
     code: { fontFamily: MONO, fontSize: '13px' },
+  },
+
+  syntax: {
+    keyword: '#0f766e',
+    string: '#2f855a',
+    comment: '#8a919b',
+    number: '#b45309',
+    annotation: '#7c3aed',
+    type: '#0e7490',
+    function: '#1d4ed8',
   },
 
   list: {

@@ -38,6 +38,17 @@ export interface CodeBlockStyle {
   code: Style;
 }
 
+/** 代码块语法高亮的 token 颜色（内联样式，公众号兼容）。 */
+export interface SyntaxStyle {
+  keyword: string;
+  string: string;
+  comment: string;
+  number: string;
+  annotation: string;
+  type: string;
+  function: string;
+}
+
 /** 主题引用（Citation / Reference）模块的样式组。 */
 export interface ReferencesStyle {
   /** 引用区容器（section，顶部细线分隔） */
@@ -101,7 +112,11 @@ export interface Theme {
   inlineCode: Style;
   blockquote: Style;
   image: Style;
+  /** 数学公式（行内 $...$ 与块级 $$...$$） */
+  math: { inline: Style; block: Style };
   codeBlock: CodeBlockStyle;
+  /** 代码块语法高亮配色 */
+  syntax: SyntaxStyle;
   list: { ul: Style; ol: Style; li: Style };
   divider: { wrapper: Style; line: Style };
   callout: Record<CalloutKind, CalloutStyle>;

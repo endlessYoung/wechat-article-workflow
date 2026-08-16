@@ -9,7 +9,8 @@ export type InlineToken =
   | { type: 'del'; value: string }
   | { type: 'link'; text: string; href: string }
   | { type: 'image'; alt: string; src: string }
-  | { type: 'cite'; id: string };
+  | { type: 'cite'; id: string }
+  | { type: 'math'; value: string; display: boolean };
 
 /** 列表项（children 用于嵌套列表）。 */
 export interface ListItem {
@@ -39,5 +40,6 @@ export type Block =
   | { type: 'code'; lang: string; code: string }
   | { type: 'list'; ordered: boolean; items: ListItem[] }
   | { type: 'divider' }
+  | { type: 'math'; value: string; display: boolean }
   | { type: 'callout'; kind: CalloutKind; title?: string; content: string }
   | { type: 'references'; entries: Reference[] };

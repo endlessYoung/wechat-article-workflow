@@ -45,6 +45,7 @@ function isBlockStart(line: string): boolean {
     LIST_RE.test(t) ||
     /^>\s?/.test(t) ||
     FENCE_OPEN_RE.test(t) ||
+    /^\$\$/.test(t) ||
     /^:::\s*/.test(t)
   );
 }
@@ -110,6 +111,14 @@ export function parseMarkdown(md: string): Block[] {
     const h = HEADING_RE.exec(trimmed);
     if (h) {
       blocks.push({ type: 'heading', level: h[1].length, text: h[2].trim() });
+      i++;
+      continue;
+    }
+
+    // 块级数学公式 $$...$$（单行）
+    const blockMath = /^\$\$(.+?)\$\$$/.exec(trimmed);
+    if (blockMath) {
+      blocks.push({ type: 'math', value: blockMath[1].trim(), display: true });
       i++;
       continue;
     }
