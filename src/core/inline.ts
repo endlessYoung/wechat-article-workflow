@@ -9,7 +9,7 @@ import type { InlineToken } from './types.js';
  * 引用标记 [N]（纯数字）置于链接组之后，避免吞掉 [1](url) 形式的链接。
  */
 const INLINE_RE =
-  /(`[^`\n]+`)|(\*\*[^*\n]+\*\*)|(\[[^\]\n]+\]\([^)\s]+\))|(\[\d+\])|(~~[^~\n]+~~)|(!\[[^\]\n]*\]\([^)\s]+\))|(\*[^*\n]+\*)|(\$[^$\n]+\$)/g;
+  /(`[^`\n]+`)|(\*\*[^*\n]+\*\*)|(\[[^\]\n]+\]\([^ \n]+\))|(\[\d+\])|(~~[^~\n]+~~)|(!\[[^\]\n]*\]\([^ \n]+\))|(\*[^*\n]+\*)|(\$[^$\n]+\$)/g;
 
 export function parseInline(text: string): InlineToken[] {
   const tokens: InlineToken[] = [];
@@ -27,14 +27,14 @@ export function parseInline(text: string): InlineToken[] {
     } else if (m[2]) {
       tokens.push({ type: 'strong', value: m[2].slice(2, -2) });
     } else if (m[3]) {
-      const lm = /^\[([^\]]+)\]\(([^)\s]+)\)$/.exec(m[3])!;
+      const lm = /^\[([^\]]+)\]\(([^ \n]+)\)$/.exec(m[3])!;
       tokens.push({ type: 'link', text: lm[1], href: lm[2] });
     } else if (m[4]) {
       tokens.push({ type: 'cite', id: m[4].slice(1, -1) });
     } else if (m[5]) {
       tokens.push({ type: 'del', value: m[5].slice(2, -2) });
     } else if (m[6]) {
-      const im = /^!\[([^\]]*)\]\(([^)\s]+)\)$/.exec(m[6])!;
+      const im = /^!\[([^\]]*)\]\(([^ \n]+)\)$/.exec(m[6])!;
       tokens.push({ type: 'image', alt: im[1], src: im[2] });
     } else if (m[7]) {
       tokens.push({ type: 'em', value: m[7].slice(1, -1) });

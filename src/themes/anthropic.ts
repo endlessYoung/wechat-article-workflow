@@ -197,6 +197,38 @@ export const anthropic: Theme = {
     line: { display: 'inline-block', width: '80px', height: '1px', backgroundColor: '#e8e6dc' },
   },
 
+  table: {
+    wrapper: { margin: '1.4em 0', overflowX: 'auto' },
+    table: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      fontSize: '14px',
+      lineHeight: '1.65',
+      border: '1px solid #e8e6dc',
+      backgroundColor: '#fffdf8',
+    },
+    th: {
+      fontFamily: SANS,
+      fontWeight: '600',
+      color: '#141413',
+      backgroundColor: '#f0eee6',
+      padding: '10px 12px',
+      borderRight: '1px solid #e8e6dc',
+      borderBottom: '1px solid #e8e6dc',
+      textAlign: 'left',
+    },
+    td: {
+      fontFamily: SERIF,
+      color: '#141413',
+      padding: '10px 12px',
+      borderRight: '1px solid #e8e6dc',
+      borderBottom: '1px solid #e8e6dc',
+      wordBreak: 'break-word',
+      verticalAlign: 'top',
+    },
+    stripe: { backgroundColor: '#f7f5ef' },
+  },
+
   cite: {
     fontFamily: SERIF,
     fontSize: '0.72em',

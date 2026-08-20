@@ -28,6 +28,7 @@
     "demo": "tsx src/cli.ts examples/sample.md -o examples/sample-output.html",
     "demo:anthropic": "tsx src/cli.ts examples/sample.md -o examples/sample-anthropic.html --theme anthropic",
     "screenshot": "node scripts/screenshot.mjs",
+    "cover": "node scripts/cover.mjs",
     "embed": "node scripts/embed-images.mjs",
     "ocr": "node scripts/ocr.mjs",
     "publish": "node scripts/publish.mjs",

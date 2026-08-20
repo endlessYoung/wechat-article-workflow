@@ -24,7 +24,7 @@
 
 ## 特性
 
-- **7 类核心组件**——H1/H2/H3、正文段落、引用块、代码块、有序/无序列表（含嵌套）、分割线、提示卡（`::: tip|note|warning|important`）。
+- **8 类核心组件**——H1/H2/H3、正文段落、引用块、代码块、有序/无序列表（含嵌套）、分割线、表格、提示卡（`::: tip|note|warning|important`）。
 - **主题引用模块**——文内上标 `[1]` 标记 + 文末参考文献列表（`::: references`）。
 - **公众号兼容**——无 `<style>`/外链 CSS；卡片与代码块用 `<section>` 包裹；代码块 `white-space: pre-wrap` 防移动端横向溢出。
 - **样式与逻辑分离**——所有视觉规则收敛进 `Theme` 契约，渲染器零硬编码；新增一套风格 = 写一个 `Theme` 对象 + `registerTheme()`。
@@ -67,6 +67,7 @@ console.log(html); // 可直接粘贴的 HTML 片段
 | 代码块 | ```` ```lang ```` |
 | 有序 / 无序列表 | `1.` / `-` `*` `+`（缩进嵌套） |
 | 分割线 | `---` 或 `***` |
+| 表格 | GFM 表格（表头行 + 分隔行，支持列对齐与斑马纹） |
 | 提示卡 | `::: tip\|note\|warning\|important [标题]` … `:::` |
 | 引用标记 | `[1]` `[2]`（上标，跳转 `#ref-N`） |
 | 参考文献 | `::: references` … `:::`（`[N]: 标题 \| 来源 \| 日期 \| 链接`） |
@@ -94,7 +95,7 @@ wechat-article-workflow/
 │   ├── core/                # parser / inline / renderer / format
 │   ├── themes/              # types.ts / minimal.ts / anthropic.ts / registry.ts
 │   └── utils/               # css / escape
-├── scripts/                 # 内容生产工具（截图 / 内嵌图片 / OCR）
+├── scripts/                 # 内容生产工具（截图 / 封面 / 内嵌图片 / OCR）
 ├── interface/               # 工具契约 / options schema / 插件清单
 ├── docs/                    # architecture.md / theme-guide.md
 ├── examples/                # sample.md + 生成的 HTML
@@ -123,13 +124,18 @@ node dist/cli.js article.md -o article.html --theme anthropic
 npm run publish -- article.html --slug article-01
 #    -> article-publish.html   （公网图片地址）
 #    -> article-copy.html      （一键复制到公众号）
+
+# 4) 公众号封面 2.35:1（完整流程见 SKILL.md §5）
+#    复制 scripts/templates/cover.html 到文章目录，改文案后导出
+npm run cover -- path/to/cover.html
+#    -> cover.png / cover.jpg（上传后台用 jpg）
 ```
 
 然后双击打开 `article-copy.html`，点「📋 一键复制到公众号」，到公众号编辑器 Ctrl+V 粘贴——图片会自动从 jsDelivr 加载。
 
 > `npm run publish` 会把图片上传到 GitHub 仓库（`WECHAT_IMG_REPO`，默认 `endlessYoung/wechat-blog-images`），并把 `src` 替换为 `cdn.jsdelivr.net` 地址；token 从 `GITHUB_TOKEN` 或 `gh auth token` 读取。
 >
-> 可选：`npm run embed -- article.html article-inline.html`（生成 base64 自包含预览）与 `npm run screenshot -- article-inline.html article-preview.png`（整页长截图）。
+> 可选：`npm run embed -- article.html article-inline.html`（生成 base64 自包含预览）、`npm run screenshot -- article-inline.html article-preview.png`（整页长截图），以及 `npm run cover -- path/to/cover.html`（2.35:1 封面导出，流程见 [SKILL.md](./SKILL.md#5-公众号封面2351)）。
 
 ## 开发
 
@@ -143,7 +149,7 @@ npm run typecheck   # tsc --noEmit
 ## Roadmap
 
 - [x] 代码块语法高亮（Kotlin）
-- [ ] 表格渲染（公众号表格需特殊处理）
+- [x] 表格渲染（公众号表格需特殊处理）
 - [ ] 更多内置主题（暗色、品牌色等）
 - [ ] 外部主题包 / 热加载
 - [ ] markdown-it / remark 适配器

@@ -21,6 +21,7 @@ export interface FormatStats {
   lists: number;
   listItems: number;
   dividers: number;
+  tables: number;
   callouts: number;
   images: number;
   /** 文内引用标记 [N] 数量 */
@@ -111,6 +112,7 @@ function computeStats(blocks: Block[]): FormatStats {
     lists: 0,
     listItems: 0,
     dividers: 0,
+    tables: 0,
     callouts: 0,
     images: 0,
     citations: 0,
@@ -138,6 +140,9 @@ function computeStats(blocks: Block[]): FormatStats {
         break;
       case 'divider':
         stats.dividers++;
+        break;
+      case 'table':
+        stats.tables++;
         break;
       case 'callout':
         stats.callouts++;

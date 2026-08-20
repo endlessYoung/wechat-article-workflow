@@ -1,4 +1,4 @@
-import type { Block, ListItem, Reference } from './types.js';
+import type { Block, ListItem, Reference, TableAlign } from './types.js';
 import type { CalloutKind } from '../themes/types.js';
 
 /**
@@ -37,8 +37,8 @@ function normalizeCalloutKind(raw: string): CalloutKind {
 }
 
 /** 判断一行是否是某个块的开头（用于段落/列表的终止）。 */
-function isBlockStart(line: string): boolean {
-  const t = line.trim();
+function isBlockStart(lines: string[], i: number): boolean {
+  const t = lines[i].trim();
   return (
     HEADING_RE.test(t) ||
     DIVIDER_RE.test(t) ||
@@ -46,7 +46,8 @@ function isBlockStart(line: string): boolean {
     /^>\s?/.test(t) ||
     FENCE_OPEN_RE.test(t) ||
     /^\$\$/.test(t) ||
-    /^:::\s*/.test(t)
+    /^:::\s*/.test(t) ||
+    (t.includes('|') && isTableHeaderAt(lines, i))
   );
 }
 
@@ -149,10 +150,18 @@ export function parseMarkdown(md: string): Block[] {
       continue;
     }
 
+    // 表格（GFM：表头行 + 分隔行）
+    if (line.includes('|') && isTableHeaderAt(lines, i)) {
+      const parsed = parseTable(lines, i);
+      blocks.push(parsed.table);
+      i = parsed.next;
+      continue;
+    }
+
     // 段落：收集到空行或下一个块开头
     const paraLines: string[] = [line];
     i++;
-    while (i < n && lines[i].trim() !== '' && !isBlockStart(lines[i])) {
+    while (i < n && lines[i].trim() !== '' && !isBlockStart(lines, i)) {
       paraLines.push(lines[i].trim());
       i++;
     }
@@ -245,7 +254,7 @@ function parseList(lines: string[], start: number, indent = -1): { list: Block; 
     // 同级项：收集延续行
     const textLines: string[] = [m[3]];
     i++;
-    while (i < lines.length && lines[i].trim() !== '' && !LIST_RE.test(lines[i]) && !isBlockStart(lines[i])) {
+    while (i < lines.length && lines[i].trim() !== '' && !LIST_RE.test(lines[i]) && !isBlockStart(lines, i)) {
       textLines.push(lines[i].trim());
       i++;
     }
@@ -253,4 +262,64 @@ function parseList(lines: string[], start: number, indent = -1): { list: Block; 
   }
 
   return { list: { type: 'list', ordered, items }, next: i };
+}
+
+/** 把一行表格内容按 `|` 拆成单元格（去除首尾可选竖线）。 */
+function splitTableRow(line: string): string[] {
+  let t = line.trim();
+  if (t.startsWith('|')) t = t.slice(1);
+  if (t.endsWith('|')) t = t.slice(0, -1);
+  return t.split('|').map((s) => s.trim());
+}
+
+/** 判断一行是否为 GFM 表格分隔行（如 `--- | :---: | ---:`）。 */
+function isTableSeparator(line: string): boolean {
+  const cells = splitTableRow(line);
+  return cells.length >= 2 && cells.every((c) => /^:?-+:?$/.test(c.trim()));
+}
+
+/** 判断 lines[i] 是否是表格开头：i 为表头行且下一行是分隔行。 */
+function isTableHeaderAt(lines: string[], i: number): boolean {
+  if (i + 1 >= lines.length) return false;
+  const header = splitTableRow(lines[i]);
+  if (header.length < 2) return false;
+  return isTableSeparator(lines[i + 1]);
+}
+
+/** 从分隔单元格解析列对齐（`:---:` 居中 / `---:` 右 / `:---` 左）。 */
+function parseTableAlign(cell: string): TableAlign {
+  const c = cell.trim();
+  const left = c.startsWith(':');
+  const right = c.endsWith(':');
+  if (left && right) return 'center';
+  if (right) return 'right';
+  if (left) return 'left';
+  return undefined;
+}
+
+/** 解析 GFM 表格：表头 + 分隔行 + 若干正文行。 */
+function parseTable(lines: string[], start: number): { table: Block; next: number } {
+  const headers = splitTableRow(lines[start]);
+  const align = splitTableRow(lines[start + 1]).map(parseTableAlign);
+  const nCols = headers.length;
+  const rows: string[][] = [];
+  let i = start + 2;
+
+  while (i < lines.length) {
+    const line = lines[i];
+    if (line.trim() === '') break;
+    if (!line.includes('|')) break;
+    const cells = splitTableRow(line);
+    // 跳过软换行产生的孤立结尾竖线（空单元格行）
+    if (cells.every((c) => c === '')) {
+      i++;
+      continue;
+    }
+    // 单元格数对齐表头：不足补空、多余截断
+    while (cells.length < nCols) cells.push('');
+    rows.push(cells.slice(0, nCols));
+    i++;
+  }
+
+  return { table: { type: 'table', headers, align, rows }, next: i };
 }

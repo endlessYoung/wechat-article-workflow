@@ -74,6 +74,8 @@ function renderBlock(b: Block, theme: Theme, refs: RefIndex): string {
     }
     case 'divider':
       return `<section style="${styleToString(theme.divider.wrapper)}"><span style="${styleToString(theme.divider.line)}"></span></section>`;
+    case 'table':
+      return renderTable(b, theme, refs);
     case 'math':
       return `<p style="${styleToString(theme.math.block)}">${renderMath(b.value)}</p>`;
     case 'list':
@@ -106,6 +108,39 @@ function renderListItem(item: ListItem, theme: Theme, refs: RefIndex): string {
     ? '\n' + item.children.map((c) => renderBlock(c, theme, refs)).join('\n')
     : '';
   return `<li style="${styleToString(theme.list.li)}">${inner}${children}</li>`;
+}
+
+function renderTable(b: Extract<Block, { type: 'table' }>, theme: Theme, refs: RefIndex): string {
+  const ts = theme.table;
+  const alignText = (a?: string) => (a === 'center' || a === 'right' ? a : 'left');
+  const thead = `<thead><tr>${b.headers
+    .map(
+      (h, idx) =>
+        `<th style="${styleToString({ ...ts.th, textAlign: alignText(b.align[idx]) })}">${renderInline(
+          parseInline(h),
+          theme,
+          refs,
+        )}</th>`,
+    )
+    .join('')}</tr></thead>`;
+  const tbody = `<tbody>${b.rows
+    .map(
+      (row, rIdx) => {
+        const stripe = rIdx % 2 === 1 ? ts.stripe : {};
+        return `<tr>${row
+          .map(
+            (cell, cIdx) =>
+              `<td style="${styleToString({
+                ...ts.td,
+                ...stripe,
+                textAlign: alignText(b.align[cIdx]),
+              })}">${renderInline(parseInline(cell), theme, refs)}</td>`,
+          )
+          .join('')}</tr>`;
+      },
+    )
+    .join('')}</tbody>`;
+  return `<section style="${styleToString(ts.wrapper)}"><table style="${styleToString(ts.table)}">${thead}${tbody}</table></section>`;
 }
 
 function renderCallout(b: Extract<Block, { type: 'callout' }>, theme: Theme, refs: RefIndex): string {

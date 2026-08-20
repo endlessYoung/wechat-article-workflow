@@ -49,6 +49,20 @@ export interface SyntaxStyle {
   function: string;
 }
 
+/** 表格样式组（GFM 表格 → 内联样式 <table>）。 */
+export interface TableStyle {
+  /** 外层容器（section，供横向滚动与间距） */
+  wrapper: Style;
+  /** <table> 元素 */
+  table: Style;
+  /** 表头单元格（th） */
+  th: Style;
+  /** 正文单元格（td） */
+  td: Style;
+  /** 斑马纹：偶数行单元格背景（公众号不支持 :nth-child，渲染时直接内联到单元格） */
+  stripe: Style;
+}
+
 /** 主题引用（Citation / Reference）模块的样式组。 */
 export interface ReferencesStyle {
   /** 引用区容器（section，顶部细线分隔） */
@@ -119,6 +133,7 @@ export interface Theme {
   syntax: SyntaxStyle;
   list: { ul: Style; ol: Style; li: Style };
   divider: { wrapper: Style; line: Style };
+  table: TableStyle;
   callout: Record<CalloutKind, CalloutStyle>;
   /** 文内引用标记（sup） */
   cite: Style;

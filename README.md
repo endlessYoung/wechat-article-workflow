@@ -24,7 +24,7 @@ It solves the **view-layer typesetting** problem (fonts, spacing, color, compone
 
 ## Features
 
-- **7 core components** — H1/H2/H3, paragraphs, blockquotes, code blocks, ordered/unordered lists (incl. nesting), dividers, and callout cards (`::: tip|note|warning|important`).
+- **8 core components** — H1/H2/H3, paragraphs, blockquotes, code blocks, ordered/unordered lists (incl. nesting), dividers, tables, and callout cards (`::: tip|note|warning|important`).
 - **Citation module** — inline superscript `[1]` markers + a footnote-style reference list (`::: references`).
 - **WeChat-safe output** — no `<style>`/external CSS; cards & code blocks wrapped in `<section>`; `white-space: pre-wrap` prevents mobile overflow.
 - **Style & logic separated** — all visual rules live in a `Theme` contract; the renderer has zero hard-coded colors. Add a look = write one `Theme` object + `registerTheme()`.
@@ -67,6 +67,7 @@ console.log(html); // paste-ready fragment
 | Code block | ```` ```lang ```` |
 | Ordered / unordered lists | `1.` / `-` `*` `+` (nested via indent) |
 | Divider | `---` or `***` |
+| Table | GFM table (header row + separator row; column alignment + zebra striping) |
 | Callout card | `::: tip\|note\|warning\|important [title]` … `:::` |
 | Citation marker | `[1]` `[2]` (superscript, links to `#ref-N`) |
 | References | `::: references` … `:::` (`[N]: title \| source \| date \| url`) |
@@ -94,7 +95,7 @@ wechat-article-workflow/
 │   ├── core/                # parser / inline / renderer / format
 │   ├── themes/              # types.ts / minimal.ts / anthropic.ts / registry.ts
 │   └── utils/               # css / escape
-├── scripts/                 # content-production utilities (screenshot / embed / ocr)
+├── scripts/                 # content-production utilities (screenshot / cover / embed / ocr)
 ├── interface/               # tool contract / options schema / plugin manifest
 ├── docs/                    # architecture.md / theme-guide.md
 ├── examples/                # sample.md + generated HTML
@@ -123,13 +124,18 @@ node dist/cli.js article.md -o article.html --theme anthropic
 npm run publish -- article.html --slug article-01
 #    -> article-publish.html  (public image URLs)
 #    -> article-copy.html     (one-click copy to WeChat)
+
+# 4) WeChat cover at 2.35:1 (full procedure in SKILL.md §5)
+#    Copy scripts/templates/cover.html into the article folder, edit copy, then:
+npm run cover -- path/to/cover.html
+#    -> cover.png / cover.jpg (upload the jpg)
 ```
 
 Then open `article-copy.html`, click **“📋 一键复制到公众号”**, and paste (Ctrl+V) into the WeChat editor — images are fetched from jsDelivr automatically.
 
 > `npm run publish` uploads images to a GitHub repo (`WECHAT_IMG_REPO`, default `endlessYoung/wechat-blog-images`) and rewrites `src` to `cdn.jsdelivr.net` URLs. It reads the token from `GITHUB_TOKEN` or `gh auth token`.
 >
-> Optional: `npm run embed -- article.html article-inline.html` (self-contained base64 preview) and `npm run screenshot -- article-inline.html article-preview.png` (full-page long screenshot).
+> Optional: `npm run embed -- article.html article-inline.html` (self-contained base64 preview), `npm run screenshot -- article-inline.html article-preview.png` (full-page long screenshot), and `npm run cover -- path/to/cover.html` (2.35:1 cover export; procedure in [SKILL.md](./SKILL.md#5-公众号封面2351)).
 
 ## Development
 
@@ -142,8 +148,8 @@ npm run typecheck   # tsc --noEmit
 
 ## Roadmap
 
-- [ ] Syntax highlighting for code blocks
-- [ ] Table rendering (WeChat tables need special handling)
+- [x] Syntax highlighting for code blocks
+- [x] Table rendering (WeChat tables need special handling)
 - [ ] More built-in themes (dark, brand, etc.)
 - [ ] External theme packages / hot-reload
 - [ ] markdown-it / remark adapter

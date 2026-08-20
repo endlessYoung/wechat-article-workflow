@@ -18,6 +18,9 @@ export interface ListItem {
   children?: Block[];
 }
 
+/** 表格列对齐（GFM 分隔行 `:---:` / `---:` / `:---`）。 */
+export type TableAlign = 'left' | 'center' | 'right' | undefined;
+
 /** 一条参考文献（主题引用模块的数据模型）。 */
 export interface Reference {
   /** 编号（对应文内 [N] 标记） */
@@ -40,6 +43,7 @@ export type Block =
   | { type: 'code'; lang: string; code: string }
   | { type: 'list'; ordered: boolean; items: ListItem[] }
   | { type: 'divider' }
+  | { type: 'table'; headers: string[]; align: TableAlign[]; rows: string[][] }
   | { type: 'math'; value: string; display: boolean }
   | { type: 'callout'; kind: CalloutKind; title?: string; content: string }
   | { type: 'references'; entries: Reference[] };

@@ -179,6 +179,36 @@ export const minimal: Theme = {
     line: { display: 'inline-block', width: '72px', height: '1px', backgroundColor: '#d9dce1' },
   },
 
+  table: {
+    wrapper: { margin: '1.2em 0', overflowX: 'auto' },
+    table: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      fontSize: '14px',
+      lineHeight: '1.6',
+      border: '1px solid #e7e9ee',
+      backgroundColor: '#ffffff',
+    },
+    th: {
+      fontWeight: '700',
+      color: '#1a1a1a',
+      backgroundColor: '#f6f7f9',
+      padding: '10px 12px',
+      borderRight: '1px solid #e7e9ee',
+      borderBottom: '1px solid #e7e9ee',
+      textAlign: 'left',
+    },
+    td: {
+      color: '#3b3b3b',
+      padding: '10px 12px',
+      borderRight: '1px solid #e7e9ee',
+      borderBottom: '1px solid #e7e9ee',
+      wordBreak: 'break-word',
+      verticalAlign: 'top',
+    },
+    stripe: { backgroundColor: '#fafbfc' },
+  },
+
   // —— 主题引用（Citation / Reference）模块 ——
   cite: {
     fontSize: '0.75em',
