@@ -65,7 +65,8 @@ Markdown  ──parse──▶  Block[]  ──render──▶  内联样式 HTM
 - 代码块 `white-space: pre-wrap; word-break: break-all;` 防移动端横向溢出；
 - 标题不超过 3 层（H4+ 降级为 H3 视觉并在 `warnings` 提示）；
 - 图片需先上传公众号素材库（外链在粘贴后可能失效），工具会在 `warnings` 提示；
-- 引用上标用 `<sup>`、文末条目带 `id="ref-N"` 供锚点跳转；公众号粘贴后可能剥离 `id`/锚点，跳转在部分环境失效（不影响内容展示）。
+- 正文 `<a href>` 仅允许 `mp.weixin.qq.com`；其它域名与页内锚点改为纯文本 / 非链接（公众号会提示「请勿插入非 mp.weixin.qq.com 域名的链接」）；
+- 引用上标只用 `<sup>`，正文不输出 `<a href="#ref-N">`；文末条目仍带 `id="ref-N"` 与 URL 文本。
 
 ## 5. 未来方向
 

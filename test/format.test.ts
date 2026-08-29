@@ -35,7 +35,20 @@ test('format 返回 html / theme / stats / warnings', () => {
   assert.equal(result.stats.dividers, 1);
   assert.equal(result.stats.callouts, 1);
   assert.equal(result.stats.totalBlocks, 7);
-  assert.deepEqual(result.warnings, []);
+  assert.ok(result.warnings.some((w) => w.includes('mp.weixin')));
+});
+
+test('外链不输出 <a href>，仅保留纯文本', () => {
+  const { html, warnings } = format('[文档](https://developer.android.com/topic/performance)');
+  assert.doesNotMatch(html, /href="https?:\/\//i);
+  assert.ok(html.includes('developer.android.com/topic/performance'));
+  assert.ok(warnings.some((w) => w.includes('mp.weixin')));
+});
+
+test('mp.weixin.qq.com 链接保留可点击 <a>', () => {
+  const { html, warnings } = format('[原文](https://mp.weixin.qq.com/s/abc)');
+  assert.match(html, /href="https:\/\/mp\.weixin\.qq\.com\/s\/abc"/);
+  assert.ok(!warnings.some((w) => w.includes('mp.weixin')));
 });
 
 test('空输入返回空 html 与告警', () => {

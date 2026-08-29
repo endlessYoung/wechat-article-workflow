@@ -6,6 +6,13 @@ dist/
 
 # personal article material（个人文章素材，不属于 Skill 本体）
 index/
+articles/
+
+# article-specific development internals（具体文章开发时的内部文件）
+hover-test/
+annotate-shot.py
+perfetto-*.mjs
+tools/
 
 # article final output（文章成品输出：一键复制 html + 预览 png）
 output/

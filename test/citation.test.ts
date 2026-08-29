@@ -54,12 +54,14 @@ test('引用容器支持纯列表项自动编号', () => {
   );
 });
 
-test('format 输出上标链接与参考文献区', () => {
-  const { html } = format('结论[1]。\n\n::: references\n[1]: 标题 | 来源 | 2025 | https://a.b/c\n:::');
-  assert.match(html, /<sup style="[^"]*"><a href="#ref-1"[^>]*>1<\/a><\/sup>/);
+test('format 输出上标与参考文献区（上标不做跳转链接）', () => {
+  const { html } = format('结论[1]。\n\n:::references\n[1]: 标题 | 来源 | 2025 | https://a.b/c\n:::');
+  assert.match(html, /<sup style="[^"]*">1<\/sup>/);
+  assert.ok(!html.includes('href="#ref-1"'));
   assert.match(html, /<li id="ref-1"[^>]*>/);
   assert.ok(html.includes('参考文献'));
-  assert.ok(html.includes('https://a.b/c'));
+  assert.ok(html.includes('a.b/c'));
+  assert.ok(!html.includes('href="https://a.b/c"'));
 });
 
 test('无对应条目的引用标记渲染为无链接上标并告警', () => {
@@ -70,7 +72,7 @@ test('无对应条目的引用标记渲染为无链接上标并告警', () => {
 });
 
 test('统计 citations 与 references', () => {
-  const { stats } = format('A[1] B[2]。\n\n::: references\n[1]: x\n[2]: y\n:::');
+  const { stats } = format('A[1] B[2]。\n\n:::references\n[1]: x\n[2]: y\n:::');
   assert.equal(stats.citations, 2);
   assert.equal(stats.references, 2);
 });

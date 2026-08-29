@@ -1,18 +1,21 @@
 #!/usr/bin/env node
 /**
- * 把 Markdown 里过长的代码块渲染成主题风格卡片截图，避免公众号手机端折行难读。
+ * 把 Markdown 里的围栏代码块渲染成主题风格卡片截图。
+ * 公众号排版必须用 --all --replace：全部截图、写回 Markdown、不得删减代码。
  *
  * 用法:
- *   node scripts/code-screenshot.mjs --md article.md [--out-dir images] [--replace]
+ *   node --import tsx scripts/code-screenshot.mjs --md article.md --all --replace
+ *   node --import tsx scripts/code-screenshot.mjs --md article.md [--out-dir images] [--replace] [--all]
  *
- * 规则（满足任一即截图）：
- *   - 任一行显示宽度 > 36（CJK 计 2）
- *   - 行数 ≥ 7
+ * 默认只截过长块（任一行显示宽度 > 36，或行数 ≥ 7）。
+ * 排版公众号 HTML 前必须加 --all，短 SQL / XML / 一行代码也不能留在文里。
+ * 截图保留完整代码，不删减；卡片固定宽度、长行折行，避免出图被裁切。
+ * 完整源码另存 images/src/。
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import puppeteer from 'puppeteer-core';
-import { highlightCode } from '../dist/utils/highlight.js';
+import { highlightCode } from '../src/utils/highlight.ts';
 
 const ANTHROPIC_SYNTAX = {
   keyword: '#b25c3c',
@@ -32,13 +35,15 @@ const argv = process.argv.slice(2);
 let mdPath = '';
 let outDir = '';
 let replace = false;
+let all = false;
 for (let i = 0; i < argv.length; i++) {
   if (argv[i] === '--md') mdPath = argv[++i];
   else if (argv[i] === '--out-dir') outDir = argv[++i];
   else if (argv[i] === '--replace') replace = true;
+  else if (argv[i] === '--all') all = true;
 }
 if (!mdPath) {
-  console.error('用法: node scripts/code-screenshot.mjs --md article.md [--out-dir images] [--replace]');
+  console.error('用法: node --import tsx scripts/code-screenshot.mjs --md article.md [--out-dir images] [--replace] [--all]');
   process.exit(1);
 }
 
@@ -68,20 +73,33 @@ function needsScreenshot(code) {
   return max > MAX_DISPLAY_COLS || lines.length >= MIN_LINES;
 }
 
+function srcExt(lang) {
+  const l = (lang || '').toLowerCase();
+  if (l === 'kotlin' || l === 'kt' || l === 'kts') return '.kt';
+  if (l === 'xml') return '.xml';
+  if (l === 'java') return '.java';
+  return '.txt';
+}
+
 function cardHtml(code, lang) {
-  const highlighted = highlightCode(code.replace(/\n$/, ''), lang, ANTHROPIC_SYNTAX);
+  const highlighted = highlightCode(code.replace(/\n$/, ''), lang, ANTHROPIC_SYNTAX).replace(
+    /style="color:([^;"]+)/g,
+    'style="color:$1 !important',
+  );
   const label = (lang || 'code').trim() || 'code';
   return `<!doctype html>
 <meta charset="utf-8">
 <style>
   html, body { margin: 0; background: #ffffff; }
   .card {
-    display: inline-block;
+    display: block;
     box-sizing: border-box;
+    width: 640px;
     background: #f0eee6;
     border: 1px solid #e8e6dc;
     border-radius: 8px;
     padding: 14px 16px 16px;
+    overflow: visible;
   }
   .lang {
     font-size: 12px;
@@ -89,13 +107,21 @@ function cardHtml(code, lang) {
     margin: 0 0 8px;
     font-family: ui-monospace, "Cascadia Code", "JetBrains Mono", Consolas, Menlo, monospace;
   }
-  pre, code {
+  pre {
     margin: 0;
-    white-space: pre;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
     line-height: 1.65;
     font-family: ui-monospace, "Cascadia Code", "JetBrains Mono", Consolas, Menlo, monospace;
     font-size: 14px;
     color: #141413;
+  }
+  code {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background: transparent;
   }
 </style>
 <div class="card" id="card">
@@ -113,14 +139,14 @@ mkdirSync(srcDir, { recursive: true });
 
 const fences = [];
 md.replace(FENCE_RE, (full, _ticks, info, body) => {
-  const lang = (info || '').trim().split(/\s+/)[0] || 'kotlin';
+  const lang = (info || '').trim().split(/\s+/)[0] || 'code';
   fences.push({ full, lang, code: body });
   return full;
 });
 
 const targets = fences
   .map((f, i) => ({ ...f, index: i }))
-  .filter((f) => needsScreenshot(f.code));
+  .filter((f) => all || needsScreenshot(f.code));
 
 if (targets.length === 0) {
   console.log('没有需要截图的代码块。');
@@ -141,8 +167,8 @@ try {
     shotIndex += 1;
     const name = `code-${String(shotIndex).padStart(2, '0')}.png`;
     const pngPath = join(imgDir, name);
-    const ktPath = join(srcDir, name.replace(/\.png$/, '.kt'));
-    writeFileSync(ktPath, f.code.replace(/\n$/, '') + '\n', 'utf8');
+    const srcPath = join(srcDir, name.replace(/\.png$/, srcExt(f.lang)));
+    writeFileSync(srcPath, f.code.replace(/\n$/, '') + '\n', 'utf8');
 
     await page.setContent(cardHtml(f.code, f.lang), { waitUntil: 'load' });
     const el = await page.$('#card');

@@ -20,7 +20,7 @@
 
 微信公众号编辑器会剥离 `<style>` 和外链 CSS，富文本必须带上**内联样式**才能正常显示。本项目把 Markdown 原文（或结构化大纲）转换成一份自带内联样式、可直接粘贴进公众号后台的 HTML 片段，开箱即得统一、专业的排版。
 
-它解决的是「**视图层排版**」问题（字号、行高、间距、颜色、组件视觉），**不负责内容写作**——不会改写你的事实、链接或代码。
+它解决的是「**视图层排版**」问题（字号、行高、间距、颜色、组件视觉），**不负责内容写作**——不会改写你的事实或代码。外链 URL 会保留为可见文本，但不会输出非 `mp.weixin.qq.com` 的可点击链接。
 
 ## 特性
 
@@ -62,7 +62,7 @@ console.log(html); // 可直接粘贴的 HTML 片段
 | --- | --- |
 | 标题 | `#` `##` `###` |
 | 段落 / 加粗 / 斜体 / 删除线 | 空行 / `**x**` / `*x*` / `~~x~~` |
-| 行内代码 / 链接 / 图片 | `` `x` `` / `[文字](url)` / `![alt](url)` |
+| 行内代码 / 链接 / 图片 | `` `x` `` / `[文字](url)`（仅 mp.weixin.qq.com 可点） / `![alt](url)` |
 | 引用块 | `> 文字` |
 | 代码块 | ```` ```lang ```` |
 | 有序 / 无序列表 | `1.` / `-` `*` `+`（缩进嵌套） |
@@ -117,15 +117,18 @@ wechat-article-workflow/
 # 1) OCR 识别截图/文字素材（当模型没有视觉能力时）
 npm run ocr -- path/to/images/
 
-# 2) 排版成内联样式 HTML
+# 2) 围栏代码块全部转成图片（强制；短代码也要转，不得删减）
+npm run code-shot -- --md article.md --all --replace
+
+# 3) 排版成内联样式 HTML
 node dist/cli.js article.md -o article.html --theme anthropic
 
-# 3) 把本地图片上传到你的 GitHub 图床，并生成一键复制页面
+# 4) 把本地图片上传到你的 GitHub 图床，并生成一键复制页面
 npm run publish -- article.html --slug article-01
 #    -> article-publish.html   （公网图片地址）
 #    -> article-copy.html      （一键复制到公众号）
 
-# 4) 公众号封面 2.35:1（完整流程见 SKILL.md §5）
+# 5) 公众号封面 2.35:1（完整流程见 SKILL.md §6）
 #    复制 scripts/templates/cover.html 到文章目录，改文案后导出
 npm run cover -- path/to/cover.html
 #    -> cover.png / cover.jpg（上传后台用 jpg）
@@ -135,7 +138,7 @@ npm run cover -- path/to/cover.html
 
 > `npm run publish` 会把图片上传到 GitHub 仓库（`WECHAT_IMG_REPO`，默认 `endlessYoung/wechat-blog-images`），并把 `src` 替换为 `cdn.jsdelivr.net` 地址；token 从 `GITHUB_TOKEN` 或 `gh auth token` 读取。
 >
-> 可选：`npm run embed -- article.html article-inline.html`（生成 base64 自包含预览）、`npm run screenshot -- article-inline.html article-preview.png`（整页长截图），以及 `npm run cover -- path/to/cover.html`（2.35:1 封面导出，流程见 [SKILL.md](./SKILL.md#5-公众号封面2351)）。
+> 可选：`npm run embed -- article.html article-inline.html`（生成 base64 自包含预览）、`npm run screenshot -- article-inline.html article-preview.png`（整页长截图），以及 `npm run cover -- path/to/cover.html`（2.35:1 封面导出，流程见 [SKILL.md](./SKILL.md#6-公众号封面2351)）。
 
 ## 开发
 

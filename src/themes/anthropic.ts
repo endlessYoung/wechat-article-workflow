@@ -25,8 +25,8 @@ export const anthropic: Theme = {
 
   base: {
     fontFamily: SANS,
-    fontSize: '16px',
-    lineHeight: 1.85,
+    fontSize: '15px',
+    lineHeight: 1.75,
     color: '#141413',
   },
 
@@ -42,7 +42,7 @@ export const anthropic: Theme = {
 
   article: {
     backgroundColor: '#faf9f5',
-    padding: '32px 20px',
+    padding: '24px 16px',
     maxWidth: '640px',
     margin: '0 auto',
     borderRadius: '6px',
@@ -50,9 +50,9 @@ export const anthropic: Theme = {
 
   h1: {
     fontFamily: SANS,
-    fontSize: '28px',
+    fontSize: '22px',
     fontWeight: '700',
-    lineHeight: '1.3',
+    lineHeight: '1.35',
     color: '#141413',
     margin: '0 0 0.8em',
     textAlign: 'center',
@@ -60,29 +60,28 @@ export const anthropic: Theme = {
   },
   h2: {
     fontFamily: SANS,
-    fontSize: '20px',
+    fontSize: '18px',
     fontWeight: '600',
-    lineHeight: '1.35',
+    lineHeight: '1.4',
     color: '#141413',
-    margin: '1.8em 0 0.6em',
+    margin: '1.7em 0 0.55em',
     letterSpacing: '0.2px',
   },
   h3: {
     fontFamily: SANS,
-    fontSize: '17px',
+    fontSize: '16px',
     fontWeight: '600',
     lineHeight: '1.4',
     color: '#141413',
-    margin: '1.5em 0 0.5em',
+    margin: '1.4em 0 0.45em',
   },
 
   paragraph: {
     fontFamily: SERIF,
-    fontSize: '16px',
-    lineHeight: '1.85',
+    fontSize: '15px',
+    lineHeight: '1.75',
     color: '#141413',
-    margin: '0 0 1.3em',
-    letterSpacing: '0.3px',
+    margin: '0 0 1.15em',
   },
 
   strong: { fontWeight: '700', color: '#141413' },
@@ -100,11 +99,11 @@ export const anthropic: Theme = {
 
   blockquote: {
     fontFamily: SERIF,
-    fontSize: '16px',
+    fontSize: '15px',
     lineHeight: '1.75',
     color: '#44443e',
-    margin: '1.5em 0',
-    padding: '4px 0 4px 18px',
+    margin: '1.4em 0',
+    padding: '4px 0 4px 16px',
     borderLeft: '3px solid #d97757',
   },
 
@@ -185,10 +184,10 @@ export const anthropic: Theme = {
       color: '#141413',
     },
     li: {
-      margin: '0.4em 0',
-      lineHeight: '1.8',
+      margin: '0.35em 0',
+      lineHeight: '1.75',
       paddingLeft: '0.3em',
-      fontSize: '16px',
+      fontSize: '15px',
     },
   },
 
@@ -280,7 +279,7 @@ export const anthropic: Theme = {
         margin: '1.4em 0',
       },
       title: { fontFamily: SANS, margin: '0 0 4px', fontWeight: '600', color: '#b25c3c', fontSize: '15px' },
-      content: { fontFamily: SERIF, margin: '0', lineHeight: '1.75', color: '#141413' },
+      content: { fontFamily: SERIF, margin: '0', lineHeight: '1.75', color: '#141413', fontSize: '15px' },
     },
     note: {
       label: '说明',
@@ -293,7 +292,7 @@ export const anthropic: Theme = {
         margin: '1.4em 0',
       },
       title: { fontFamily: SANS, margin: '0 0 4px', fontWeight: '600', color: '#7c7c74', fontSize: '15px' },
-      content: { fontFamily: SERIF, margin: '0', lineHeight: '1.75', color: '#141413' },
+      content: { fontFamily: SERIF, margin: '0', lineHeight: '1.75', color: '#141413', fontSize: '15px' },
     },
     warning: {
       label: '注意',
@@ -306,7 +305,7 @@ export const anthropic: Theme = {
         margin: '1.4em 0',
       },
       title: { fontFamily: SANS, margin: '0 0 4px', fontWeight: '600', color: '#b5531f', fontSize: '15px' },
-      content: { fontFamily: SERIF, margin: '0', lineHeight: '1.75', color: '#141413' },
+      content: { fontFamily: SERIF, margin: '0', lineHeight: '1.75', color: '#141413', fontSize: '15px' },
     },
     important: {
       label: '重点',
@@ -319,7 +318,7 @@ export const anthropic: Theme = {
         margin: '1.4em 0',
       },
       title: { fontFamily: SANS, margin: '0 0 4px', fontWeight: '600', color: '#b25c3c', fontSize: '15px' },
-      content: { fontFamily: SERIF, margin: '0', lineHeight: '1.75', color: '#141413' },
+      content: { fontFamily: SERIF, margin: '0', lineHeight: '1.75', color: '#141413', fontSize: '15px' },
     },
   },
 };

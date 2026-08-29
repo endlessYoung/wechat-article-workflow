@@ -20,7 +20,7 @@ A composable, multi-theme typesetting skill that can be invoked by agents (DeepS
 
 WeChat's editor strips `<style>` tags and external CSS, so rich content must carry **inline styles** to render correctly. This project turns plain Markdown (or a structured outline) into a self-contained HTML fragment you can paste directly into the WeChat editor — with consistent, professional typography out of the box.
 
-It solves the **view-layer typesetting** problem (fonts, spacing, color, component visuals) — *not* content writing. It never rewrites your facts, links, or code.
+It solves the **view-layer typesetting** problem (fonts, spacing, color, component visuals) — *not* content writing. It never rewrites your facts or code. External URLs stay visible as text, but only `mp.weixin.qq.com` may become a clickable `<a href>` (WeChat blocks other domains).
 
 ## Features
 
@@ -62,7 +62,7 @@ console.log(html); // paste-ready fragment
 | --- | --- |
 | Headings | `#` `##` `###` |
 | Paragraph / bold / italic / strikethrough | blank lines / `**x**` / `*x*` / `~~x~~` |
-| Inline code / link / image | `` `x` `` / `[text](url)` / `![alt](url)` |
+| Inline code / link / image | `` `x` `` / `[text](url)` (clickable only for mp.weixin.qq.com) / `![alt](url)` |
 | Blockquote | `> text` |
 | Code block | ```` ```lang ```` |
 | Ordered / unordered lists | `1.` / `-` `*` `+` (nested via indent) |
@@ -117,15 +117,18 @@ The repo ships utility scripts that turn raw material into a finished, publishab
 # 1) OCR screenshots/text material (when the model has no vision)
 npm run ocr -- path/to/images/
 
-# 2) Format the article into inline-styled HTML
+# 2) Convert ALL fenced code blocks to images (required; do not omit any code)
+npm run code-shot -- --md article.md --all --replace
+
+# 3) Format the article into inline-styled HTML
 node dist/cli.js article.md -o article.html --theme anthropic
 
-# 3) Upload local images to your GitHub image host + generate a one-click copy page
+# 4) Upload local images to your GitHub image host + generate a one-click copy page
 npm run publish -- article.html --slug article-01
 #    -> article-publish.html  (public image URLs)
 #    -> article-copy.html     (one-click copy to WeChat)
 
-# 4) WeChat cover at 2.35:1 (full procedure in SKILL.md §5)
+# 5) WeChat cover at 2.35:1 (full procedure in SKILL.md §6)
 #    Copy scripts/templates/cover.html into the article folder, edit copy, then:
 npm run cover -- path/to/cover.html
 #    -> cover.png / cover.jpg (upload the jpg)
@@ -135,7 +138,7 @@ Then open `article-copy.html`, click **“📋 一键复制到公众号”**, an
 
 > `npm run publish` uploads images to a GitHub repo (`WECHAT_IMG_REPO`, default `endlessYoung/wechat-blog-images`) and rewrites `src` to `cdn.jsdelivr.net` URLs. It reads the token from `GITHUB_TOKEN` or `gh auth token`.
 >
-> Optional: `npm run embed -- article.html article-inline.html` (self-contained base64 preview), `npm run screenshot -- article-inline.html article-preview.png` (full-page long screenshot), and `npm run cover -- path/to/cover.html` (2.35:1 cover export; procedure in [SKILL.md](./SKILL.md#5-公众号封面2351)).
+> Optional: `npm run embed -- article.html article-inline.html` (self-contained base64 preview), `npm run screenshot -- article-inline.html article-preview.png` (full-page long screenshot), and `npm run cover -- path/to/cover.html` (2.35:1 cover export; procedure in [SKILL.md](./SKILL.md#6-公众号封面2351)).
 
 ## Development
 

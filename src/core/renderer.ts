@@ -5,6 +5,7 @@ import { escapeHtml } from '../utils/escape.js';
 import { renderMath } from '../utils/math.js';
 import { highlightCode } from '../utils/highlight.js';
 import { parseInline } from './inline.js';
+import { displayUrl, isWechatAllowedHref } from '../utils/wechat-href.js';
 
 /** 引用索引：编号 → 参考文献（用于文内标记跳转与孤儿引用判断）。 */
 type RefIndex = Map<string, Reference>;
@@ -37,16 +38,15 @@ function renderInline(tokens: InlineToken[], theme: Theme, refs: RefIndex): stri
         case 'del':
           return `<del style="${styleToString({ color: theme.colors.muted })}">${escapeHtml(t.value)}</del>`;
         case 'link':
-          return `<a href="${escapeHtml(t.href)}" style="${styleToString(theme.link)}">${escapeHtml(t.text)}</a>`;
+          if (isWechatAllowedHref(t.href)) {
+            return `<a href="${escapeHtml(t.href)}" style="${styleToString(theme.link)}">${escapeHtml(t.text)}</a>`;
+          }
+          return renderExternalLinkText(t.text, t.href, theme);
         case 'image':
           return `<img src="${escapeHtml(t.src)}" alt="${escapeHtml(t.alt)}" style="${styleToString(theme.image)}" />`;
         case 'cite': {
           const n = escapeHtml(t.id);
-          const sup = `<sup style="${styleToString(theme.cite)}">`;
-          if (refs.has(t.id)) {
-            return `${sup}<a href="#ref-${n}" style="${styleToString(theme.citeLink)}">${n}</a></sup>`;
-          }
-          return `${sup}${n}</sup>`;
+          return `<sup style="${styleToString(theme.cite)}">${n}</sup>`;
         }
         case 'math':
           return `<span style="${styleToString(theme.math.inline)}">${renderMath(t.value)}</span>`;
@@ -166,7 +166,11 @@ function renderReferences(entries: Reference[], theme: Theme): string {
       if (meta.length) parts.push(`<span style="${styleToString(rs.meta)}"> — ${meta.join(', ')}</span>`);
 
       if (e.url) {
-        parts.push(`<a href="${escapeHtml(e.url)}" style="${styleToString(rs.link)}">${escapeHtml(displayUrl(e.url))}</a>`);
+        if (isWechatAllowedHref(e.url)) {
+          parts.push(`<a href="${escapeHtml(e.url)}" style="${styleToString(rs.link)}">${escapeHtml(displayUrl(e.url))}</a>`);
+        } else {
+          parts.push(`<span style="${styleToString(rs.link)}">${escapeHtml(displayUrl(e.url))}</span>`);
+        }
       }
 
       return `<li id="ref-${escapeHtml(e.id)}" style="${styleToString(rs.item)}"><sup style="${styleToString(rs.index)}">${escapeHtml(e.id)}</sup> ${parts.join(' ')}</li>`;
@@ -176,7 +180,9 @@ function renderReferences(entries: Reference[], theme: Theme): string {
   return `<section style="${styleToString(rs.wrapper)}">${head}<ol style="${styleToString(rs.list)}">\n${items}\n</ol></section>`;
 }
 
-/** 展示用链接文本：去掉协议与末尾斜杠，更简洁。 */
-function displayUrl(url: string): string {
-  return url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+function renderExternalLinkText(text: string, href: string, theme: Theme): string {
+  const label = `<span style="${styleToString(theme.link)}">${escapeHtml(text)}</span>`;
+  const shown = displayUrl(href);
+  if (!text || text === href || text === shown) return label;
+  return `${label}<span style="color:${theme.colors.muted}"> ${escapeHtml(shown)}</span>`;
 }

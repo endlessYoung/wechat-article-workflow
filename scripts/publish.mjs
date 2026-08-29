@@ -101,6 +101,7 @@ writeFileSync(publishPath, html, 'utf8');
 
 const copyPage = `<!doctype html>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>一键复制到公众号</title>
 <style>
   body{margin:0;background:#e9e9e6;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}

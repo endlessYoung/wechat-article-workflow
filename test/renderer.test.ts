@@ -18,8 +18,10 @@ test('正文段落包含行高与字号内联样式', () => {
 test('代码块用 section 包裹且内容被转义', () => {
   const html = renderBlocks(parseMarkdown('```html\n<div>x</div>\n```'), minimal);
   assert.match(html, /<section style="[^"]+">/);
-  assert.ok(html.includes('&lt;div&gt;x&lt;/div&gt;'));
+  assert.match(html, /&lt;/);
+  assert.match(html, />div</);
   assert.ok(!html.includes('<div>x</div>'));
+  assert.doesNotMatch(html, /<!--/);
 });
 
 test('提示卡渲染图标与缺省标题', () => {

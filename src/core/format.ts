@@ -2,6 +2,7 @@ import type { Block, Reference } from './types.js';
 import type { Theme } from '../themes/types.js';
 import { getTheme } from '../themes/registry.js';
 import { styleToString } from '../utils/css.js';
+import { isWechatAllowedHref } from '../utils/wechat-href.js';
 import { parseMarkdown } from './parser.js';
 import { parseInline } from './inline.js';
 import { renderBlocks } from './renderer.js';
@@ -185,5 +186,55 @@ function collectWarnings(blocks: Block[], refs: Map<string, Reference>): string[
     warnings.push(`引用标记 [${orphans.join('], [')}] 缺少对应参考文献条目。`);
   }
 
+  if (hasExternalHref(blocks)) {
+    warnings.push(
+      '检测到非 mp.weixin.qq.com 的外链：已改为纯文本 URL（公众号会拦截其它域名的 <a href>）。',
+    );
+  }
+
   return warnings;
+}
+
+/** 收集块内可解析的行内文本（含列表/表格/参考文献）。 */
+function collectSearchTexts(blocks: Block[]): string[] {
+  const texts: string[] = [];
+  const walk = (bs: Block[]) => {
+    for (const b of bs) {
+      switch (b.type) {
+        case 'heading':
+        case 'paragraph':
+        case 'blockquote':
+          texts.push(b.text);
+          break;
+        case 'callout':
+          if (b.title) texts.push(b.title);
+          texts.push(b.content);
+          break;
+        case 'list':
+          for (const item of b.items) {
+            texts.push(item.text);
+            if (item.children) walk(item.children);
+          }
+          break;
+        case 'table':
+          texts.push(...b.headers, ...b.rows.flat());
+          break;
+      }
+    }
+  };
+  walk(blocks);
+  return texts;
+}
+
+function hasExternalHref(blocks: Block[]): boolean {
+  for (const text of collectSearchTexts(blocks)) {
+    for (const t of parseInline(text)) {
+      if (t.type === 'link' && !isWechatAllowedHref(t.href)) return true;
+    }
+  }
+  for (const b of blocks) {
+    if (b.type !== 'references') continue;
+    if (b.entries.some((e) => e.url && !isWechatAllowedHref(e.url))) return true;
+  }
+  return false;
 }

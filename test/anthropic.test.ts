@@ -14,10 +14,17 @@ test('anthropic 主题输出暖白纸张包裹 + 衬线正文', () => {
   assert.ok(html.startsWith('<section style='), '应包裹整篇 section');
 });
 
-test('anthropic 引用上标为陶土色并链接到条目', () => {
-  const { html } = format('结论[1]。\n\n::: references\n[1]: 标题 | 来源\n:::', { theme: 'anthropic' });
+test('anthropic 正文字号适合手机阅读列宽', () => {
+  const { html } = format('正文段落。', { theme: 'anthropic' });
+  const p = html.match(/<p style="[^"]*">/)?.[0] ?? '';
+  assert.match(p, /font-size:15px/);
+  assert.doesNotMatch(p, /letter-spacing/);
+});
+
+test('anthropic 引用上标为陶土色，正文不做跳转链接', () => {
+  const { html } = format('结论[1]。\n\n:::references\n[1]: 标题 | 来源\n:::', { theme: 'anthropic' });
   assert.ok(html.includes('color:#d97757'));
-  assert.ok(html.includes('href="#ref-1"'));
+  assert.ok(!html.includes('href="#ref-1"'));
 });
 
 test('minimal 主题不包裹 article', () => {
