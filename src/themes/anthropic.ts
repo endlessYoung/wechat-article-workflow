@@ -270,7 +270,7 @@ export const anthropic: Theme = {
   callout: {
     tip: {
       label: '提示',
-      icon: '💡',
+      icon: 'lightbulb',
       wrapper: {
         backgroundColor: '#f0eee6',
         borderLeft: '3px solid #d97757',
@@ -283,7 +283,7 @@ export const anthropic: Theme = {
     },
     note: {
       label: '说明',
-      icon: '📌',
+      icon: 'info',
       wrapper: {
         backgroundColor: '#f0eee6',
         borderLeft: '3px solid #7c7c74',
@@ -296,7 +296,7 @@ export const anthropic: Theme = {
     },
     warning: {
       label: '注意',
-      icon: '⚠️',
+      icon: 'warning',
       wrapper: {
         backgroundColor: '#fcf6f0',
         borderLeft: '3px solid #d47f2a',
@@ -309,7 +309,7 @@ export const anthropic: Theme = {
     },
     important: {
       label: '重点',
-      icon: '⭐',
+      icon: 'star',
       wrapper: {
         backgroundColor: '#f9ede9',
         borderLeft: '3px solid #b25c3c',

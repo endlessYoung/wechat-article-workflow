@@ -168,6 +168,14 @@ function collectWarnings(blocks: Block[], refs: Map<string, Reference>): string[
   if (blocks.some((b) => b.type === 'heading' && b.level > 3)) {
     warnings.push('检测到 H4 及以上标题：公众号正文建议不超过 3 层标题，已按 H3 视觉渲染。');
   }
+  const h2s = blocks.filter((b): b is Extract<Block, { type: 'heading' }> => b.type === 'heading' && b.level === 2);
+  if (h2s.length > 0 && !h2s.every((b, i) => b.text.startsWith(`${i + 1}. `))) {
+    warnings.push('二级标题必须写成“## 1. 标题”形式，阿拉伯数字从 1 连续编号；H1/H3 不加此序号。');
+  }
+  const quoteTexts = collectSearchTexts(blocks).join('\n');
+  if (/[「」『』]/.test(quoteTexts)) {
+    warnings.push('正文请使用中文双引号“”，不要使用「」或『』。');
+  }
   if (blocks.some((b) => IMAGE_RE.test(blockText(b)))) {
     warnings.push('检测到图片：请先将图片上传到公众号素材库，粘贴后的外链图片可能失效。');
   }

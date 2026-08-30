@@ -65,10 +65,10 @@ const brand: Theme = {
     link: { color: '#2563eb', textDecoration: 'none', fontSize: '12px', wordBreak: 'break-all' },
   },
   callout: {
-    tip:     { label: '提示', icon: '💡', wrapper: { backgroundColor: '#eef7f5', borderLeft: '3px solid #0f766e', borderRadius: '6px', padding: '12px 16px', margin: '1.2em 0' }, title: { margin: '0 0 4px', fontWeight: '700', color: '#0f766e' }, content: { margin: '0', lineHeight: '1.7' } },
-    note:    { label: '说明', icon: '📌', wrapper: { backgroundColor: '#eef4ff', borderLeft: '3px solid #2563eb', borderRadius: '6px', padding: '12px 16px', margin: '1.2em 0' }, title: { margin: '0 0 4px', fontWeight: '700', color: '#2563eb' }, content: { margin: '0', lineHeight: '1.7' } },
-    warning: { label: '注意', icon: '⚠️', wrapper: { backgroundColor: '#fef7ec', borderLeft: '3px solid #d97706', borderRadius: '6px', padding: '12px 16px', margin: '1.2em 0' }, title: { margin: '0 0 4px', fontWeight: '700', color: '#d97706' }, content: { margin: '0', lineHeight: '1.7' } },
-    important: { label: '重点', icon: '⭐', wrapper: { backgroundColor: '#fdf0f0', borderLeft: '3px solid #dc2626', borderRadius: '6px', padding: '12px 16px', margin: '1.2em 0' }, title: { margin: '0 0 4px', fontWeight: '700', color: '#dc2626' }, content: { margin: '0', lineHeight: '1.7' } },
+    tip:     { label: '提示', icon: 'lightbulb', wrapper: { backgroundColor: '#eef7f5', borderLeft: '3px solid #0f766e', borderRadius: '6px', padding: '12px 16px', margin: '1.2em 0' }, title: { margin: '0 0 4px', fontWeight: '700', color: '#0f766e' }, content: { margin: '0', lineHeight: '1.7' } },
+    note:    { label: '说明', icon: 'info', wrapper: { backgroundColor: '#eef4ff', borderLeft: '3px solid #2563eb', borderRadius: '6px', padding: '12px 16px', margin: '1.2em 0' }, title: { margin: '0 0 4px', fontWeight: '700', color: '#2563eb' }, content: { margin: '0', lineHeight: '1.7' } },
+    warning: { label: '注意', icon: 'warning', wrapper: { backgroundColor: '#fef7ec', borderLeft: '3px solid #d97706', borderRadius: '6px', padding: '12px 16px', margin: '1.2em 0' }, title: { margin: '0 0 4px', fontWeight: '700', color: '#d97706' }, content: { margin: '0', lineHeight: '1.7' } },
+    important: { label: '重点', icon: 'star', wrapper: { backgroundColor: '#fdf0f0', borderLeft: '3px solid #dc2626', borderRadius: '6px', padding: '12px 16px', margin: '1.2em 0' }, title: { margin: '0 0 4px', fontWeight: '700', color: '#dc2626' }, content: { margin: '0', lineHeight: '1.7' } },
   },
 };
 
@@ -80,7 +80,7 @@ registerTheme(brand);
 1. **key 用 camelCase**：`backgroundColor`、`fontSize`、`paddingLeft`。数值可传 `number`（如 `lineHeight: 1.75`）。
 2. **内联样式限制**：公众号编辑器只保留内联 `style`，避免依赖 `display:grid`、`position:fixed`、`@media`、CSS 变量等（部分会被过滤或表现异常）。优先 `margin/padding/背景/边框/字号/行高/颜色`。
 3. **容器用 `<section>`**：卡片与代码块由渲染器输出为 `<section>`，主题只需给样式。
-4. **提示卡四类**：`tip / note / warning / important` 必须齐全（渲染器按 `CalloutKind` 索引）。
+4. **提示卡四类**：`tip / note / warning / important` 必须齐全（渲染器按 `CalloutKind` 索引）。`icon` 填 Lucide 名（`lightbulb` / `info` / `warning` / `star`），会渲成内联 SVG；未知值当普通文字（仍可用 emoji）。公众号会剥外链字体，不能用 Font Awesome 网页字体。
 5. **主题引用字段**：`cite`（文内上标）、`citeLink`（上标锚点）、`references`（文末列表：`label/title/list/item/index/refTitle/meta/link`）需齐全。
 6. **标题层级**：只提供 `h1/h2/h3`；H4+ 自动降级到 `h3` 视觉。
 7. **兼容性自检**：改完主题后跑 `npm run demo` 查看 `examples/sample-output.html`，并粘贴到公众号后台「草稿 → 预览」验证。

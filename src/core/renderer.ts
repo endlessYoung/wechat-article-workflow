@@ -6,6 +6,7 @@ import { renderMath } from '../utils/math.js';
 import { highlightCode } from '../utils/highlight.js';
 import { parseInline } from './inline.js';
 import { displayUrl, isWechatAllowedHref } from '../utils/wechat-href.js';
+import { renderCalloutIcon } from '../utils/callout-icon.js';
 
 /** 引用索引：编号 → 参考文献（用于文内标记跳转与孤儿引用判断）。 */
 type RefIndex = Map<string, Reference>;
@@ -145,8 +146,8 @@ function renderTable(b: Extract<Block, { type: 'table' }>, theme: Theme, refs: R
 
 function renderCallout(b: Extract<Block, { type: 'callout' }>, theme: Theme, refs: RefIndex): string {
   const cs: CalloutStyle = theme.callout[b.kind];
-  const label = cs.icon ? `${cs.icon} ${b.title ?? cs.label}` : (b.title ?? cs.label);
-  const title = `<p style="${styleToString(cs.title)}">${renderInline(parseInline(label), theme, refs)}</p>`;
+  const label = b.title ?? cs.label;
+  const title = `<p style="${styleToString(cs.title)}">${renderCalloutIcon(cs.icon, cs)}${renderInline(parseInline(label), theme, refs)}</p>`;
   const content = `<p style="${styleToString(cs.content)}">${renderInline(parseInline(b.content), theme, refs)}</p>`;
   return `<section style="${styleToString(cs.wrapper)}">${title}${content}</section>`;
 }

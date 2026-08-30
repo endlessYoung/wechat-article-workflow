@@ -60,7 +60,7 @@ console.log(html); // paste-ready fragment
 
 | Component | Syntax |
 | --- | --- |
-| Headings | `#` `##` `###` |
+| Headings | `#` `## N. title` `###` |
 | Paragraph / bold / italic / strikethrough | blank lines / `**x**` / `*x*` / `~~x~~` |
 | Inline code / link / image | `` `x` `` / `[text](url)` (clickable only for mp.weixin.qq.com) / `![alt](url)` |
 | Blockquote | `> text` |

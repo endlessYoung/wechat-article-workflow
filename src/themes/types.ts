@@ -22,7 +22,7 @@ export interface CalloutStyle {
   content: Style;
   /** 缺省标题文字（未显式给定标题时使用） */
   label: string;
-  /** 图标（emoji，可为空字符串表示不用图标） */
+  /** Lucide 图标名（lightbulb / info / warning / star）；自定义 emoji 文本；空字符串表示不用图标。 */
   icon: string;
 }
 

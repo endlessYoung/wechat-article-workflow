@@ -62,6 +62,26 @@ test('H4 触发告警', () => {
   assert.ok(result.warnings.some((w) => w.includes('H4')));
 });
 
+test('二级标题缺少序号时触发告警', () => {
+  const result = format('## 没有序号的标题\n\n正文');
+  assert.ok(result.warnings.some((w) => w.includes('二级标题')));
+});
+
+test('二级标题按 1. 2. 连续编号时不告警', () => {
+  const result = format('## 1. 第一节\n\n正文\n\n## 2. 第二节\n\n正文');
+  assert.ok(!result.warnings.some((w) => w.includes('二级标题')));
+});
+
+test('二级标题跳号时触发告警', () => {
+  const result = format('## 1. 第一节\n\n正文\n\n## 3. 第三节\n\n正文');
+  assert.ok(result.warnings.some((w) => w.includes('二级标题')));
+});
+
+test('日式引号「」触发告警', () => {
+  const result = format('## 1. 第一节\n\n正文使用「引号」');
+  assert.ok(result.warnings.some((w) => w.includes('中文双引号')));
+});
+
 test('图片触发告警', () => {
   const result = format('![alt](https://a.b/x.png)');
   assert.equal(result.stats.images, 1);

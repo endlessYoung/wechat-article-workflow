@@ -23,6 +23,7 @@ Markdown  ──parse──▶  Block[]  ──render──▶  内联样式 HTM
 | `src/core/parser.ts` | 块级解析（标题/段落/引用/代码/列表/分割线/提示卡） |
 | `src/core/inline.ts` | 行内解析（加粗/斜体/行内码/链接/删除线/图片） |
 | `src/core/renderer.ts` | Block → HTML（唯一读取 Theme 视觉规则的地方） |
+| `src/utils/callout-icon.ts` | 提示卡 Lucide 线型 SVG（data URI + img；公众号不能用网页字体） |
 | `src/core/format.ts` | 编排入口 + 统计 + 告警 |
 | `src/themes/types.ts` | Theme / Style 契约 |
 | `src/themes/minimal.ts` | 默认主题 |
@@ -63,7 +64,7 @@ Markdown  ──parse──▶  Block[]  ──render──▶  内联样式 HTM
 - 仅使用内联 `style`（公众号编辑器会移除 `<style>` 与 `<link>`）；
 - 容器用 `<section>`（在公众号富文本中保留最完整）；
 - 代码块 `white-space: pre-wrap; word-break: break-all;` 防移动端横向溢出；
-- 标题不超过 3 层（H4+ 降级为 H3 视觉并在 `warnings` 提示）；
+- 标题不超过 3 层（H4+ 降级为 H3 视觉并在 `warnings` 提示）；二级标题须为 `## 1. …` 连续编号，否则写入 `warnings`；
 - 图片需先上传公众号素材库（外链在粘贴后可能失效），工具会在 `warnings` 提示；
 - 正文 `<a href>` 仅允许 `mp.weixin.qq.com`；其它域名与页内锚点改为纯文本 / 非链接（公众号会提示「请勿插入非 mp.weixin.qq.com 域名的链接」）；
 - 引用上标只用 `<sup>`，正文不输出 `<a href="#ref-N">`；文末条目仍带 `id="ref-N"` 与 URL 文本。

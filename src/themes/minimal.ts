@@ -270,7 +270,7 @@ export const minimal: Theme = {
   callout: {
     tip: {
       label: '提示',
-      icon: '💡',
+      icon: 'lightbulb',
       wrapper: {
         backgroundColor: '#eef7f5',
         borderLeft: '3px solid #0f766e',
@@ -283,7 +283,7 @@ export const minimal: Theme = {
     },
     note: {
       label: '说明',
-      icon: '📌',
+      icon: 'info',
       wrapper: {
         backgroundColor: '#eef4ff',
         borderLeft: '3px solid #2563eb',
@@ -296,7 +296,7 @@ export const minimal: Theme = {
     },
     warning: {
       label: '注意',
-      icon: '⚠️',
+      icon: 'warning',
       wrapper: {
         backgroundColor: '#fef7ec',
         borderLeft: '3px solid #d97706',
@@ -309,7 +309,7 @@ export const minimal: Theme = {
     },
     important: {
       label: '重点',
-      icon: '⭐',
+      icon: 'star',
       wrapper: {
         backgroundColor: '#fdf0f0',
         borderLeft: '3px solid #dc2626',

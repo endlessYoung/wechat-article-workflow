@@ -26,7 +26,11 @@ test('代码块用 section 包裹且内容被转义', () => {
 
 test('提示卡渲染图标与缺省标题', () => {
   const html = renderBlocks(parseMarkdown('::: tip\n内容\n:::'), minimal);
-  assert.ok(html.includes('💡'));
+  assert.ok(html.includes('data:image/svg+xml'));
+  assert.ok(html.includes('<img'));
+  assert.ok(html.includes('%230f766e') || html.includes('#0f766e'));
+  assert.ok(!html.includes('💡'));
+  assert.ok(!html.includes('lightbulb 提示'));
   assert.ok(html.includes('提示'));
 });
 
